@@ -15,11 +15,11 @@ describe Block do
   describe "#as_json" do
     it "returns object as a hash" do
       expect(block.as_json).to eq({
-        "index" => 1,
-        "timestamp" => block.timestamp.utc.iso8601,
-        "proof" => 0,
-        "transactions" => [],
-        "previous_block_digest" => ""
+        index: 1,
+        timestamp: block.timestamp.utc.iso8601,
+        proof: 0,
+        transactions: [],
+        previous_block_digest: ""
       })
     end
   end

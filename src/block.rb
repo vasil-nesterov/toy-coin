@@ -1,11 +1,13 @@
 require "time"
+require "dry-struct"
+require_relative "types"
 
-class Block
-  attr_reader :index,
-              :timestamp,
-              :proof,
-              :transactions,
-              :previous_block_digest
+class Block < Dry::Struct
+  attribute :index, Types::Integer
+  attribute :timestamp, Types::Time
+  attribute :proof, Types::Integer
+  attribute :transactions, Types::Array.of(Types::Hash)
+  attribute :previous_block_digest, Types::String
 
   def self.genesis
     new(
@@ -17,26 +19,11 @@ class Block
     )
   end
 
-  def initialize(index:, timestamp:, proof:, transactions:, previous_block_digest:)
-    @index = index
-    @timestamp = timestamp
-    @proof = proof
-    @transactions = transactions
-    @previous_block_digest = previous_block_digest
-  end
-
   def as_json
-    {
-      "index" => @index,
-      "timestamp" => @timestamp.utc.iso8601,
-      "proof" => @proof,
-      "transactions" => @transactions,
-      "previous_block_digest" => @previous_block_digest
-    }
+    to_h.merge(timestamp: timestamp.utc.iso8601)
   end
 
   def ==(other)
-    other.is_a?(Block) &&
-      as_json == other.as_json
+    other.is_a?(Block) && as_json == other.as_json
   end
 end
