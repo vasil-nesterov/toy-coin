@@ -6,7 +6,7 @@ class Blockchain
   end
 
   def to_h
-    blocks.map(&:to_h)
+    blocks.map(&:to_h_with_digest)
   end
 
   def add_block(block)

@@ -28,6 +28,10 @@ class Block < Dry::Struct
     Digest::SHA256.hexdigest(to_json)
   end
 
+  def to_h_with_digest
+    to_h.merge(digest: digest)
+  end
+
   def to_h
     super.merge(timestamp: timestamp.utc.iso8601)
   end
