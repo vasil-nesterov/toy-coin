@@ -16,7 +16,7 @@ describe Block do
     it "returns object as a hash" do
       expect(block.as_json).to eq({
         index: 1,
-        timestamp: block.timestamp.utc.iso8601,
+        timestamp: "2024-05-01T00:00:00Z",
         proof: 0,
         transactions: [],
         previous_block_digest: ""
@@ -36,7 +36,7 @@ describe Block do
     }
 
     it "returns true if the objects are the same" do
-      expect(block == block).to be(true)
+      expect(block == block.dup).to be(true)
     end
 
     it "returns false if the objects are different" do
