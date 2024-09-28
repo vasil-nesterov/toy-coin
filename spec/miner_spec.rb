@@ -8,7 +8,7 @@ RSpec.describe Miner do
 
   describe '#mine_next_block' do
     it 'adds a new block to the blockchain' do
-      expect { miner.mine_next_block }.to change { blockchain.blocks.count }.by(1)
+      expect { miner.mine_next_block(mempool: Mempool.new) }.to change { blockchain.blocks.count }.by(1)
     end
   end
 end

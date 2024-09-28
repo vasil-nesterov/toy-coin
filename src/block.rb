@@ -7,7 +7,7 @@ class Block < Dry::Struct
   attribute :index, Types::Integer
   attribute :timestamp, Types::Time
   attribute :proof, Types::Integer
-  attribute :transactions, Types::Array.of(Types::Hash)
+  attribute :transactions, Types::Array.of(Transaction)
   attribute :previous_block_digest, Types::String
 
   def self.genesis

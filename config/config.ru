@@ -1,6 +1,6 @@
-require_relative 'middleware/blockchain_middleware'
+require_relative 'middleware/toy_state_middleware'
 require_relative '../config/boot'
 
-use BlockchainMiddleware
+use ToyStateMiddleware
 
-run Node.app
+run Web.app
