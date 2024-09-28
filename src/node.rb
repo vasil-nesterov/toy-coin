@@ -11,19 +11,9 @@ class Node < Roda
     end
 
     r.post "mine" do
-      last_block = blockchain.last_block
-      proof = ProofOfWork.new(5).next_proof(last_block.proof)
-      p proof
-      new_block = Block.new(
-        index: last_block.index + 1,
-        timestamp: Time.now.utc,
-        proof: proof,
-        transactions: [],
-        previous_block_digest: last_block.digest
-      )
+      miner = Miner.new(blockchain:, complexity: 5)
+      miner.mine_next_block
 
-      blockchain.add_block(new_block)
-    
       { 
         status: "success",
         blockchain: blockchain.to_h
