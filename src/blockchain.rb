@@ -10,10 +10,10 @@ class Blockchain
   end
 
   def add_block(block)
-    blocks << block
+    blocks.unshift(block)
   end
 
   def last_block
-    blocks.last
+    blocks.first
   end
 end
