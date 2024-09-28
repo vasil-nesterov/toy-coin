@@ -1,5 +1,1 @@
-require "benchmark"
-
-def b
-  Benchmark.measure { yield }
-end
+require_relative "./config/boot"

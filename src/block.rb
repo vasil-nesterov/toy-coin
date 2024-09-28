@@ -1,6 +1,5 @@
 require "time"
 require "dry-struct"
-require_relative "types"
 
 class Block < Dry::Struct
   attribute :index, Types::Integer

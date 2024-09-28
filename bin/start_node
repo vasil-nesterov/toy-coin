@@ -1,0 +1,3 @@
+#!/bin/sh
+
+bundle exec rerun --dir src -- rackup -p 7000 config/config.ru
