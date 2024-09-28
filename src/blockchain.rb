@@ -1,9 +1,19 @@
 class Blockchain
+  attr_reader :blocks
+  
   def initialize
     @blocks = [Block.genesis]
   end
 
-  def as_json
-    @blocks.map(&:as_json)
+  def to_h
+    blocks.map(&:to_h)
+  end
+
+  def add_block(block)
+    blocks << block
+  end
+
+  def last_block
+    blocks.last
   end
 end

@@ -6,15 +6,15 @@ RSpec.describe Blockchain do
 
   describe '#initialize' do
     it 'creates a blockchain with a genesis block' do
-      expect(blockchain.as_json.length).to eq(1)
-      expect(blockchain.as_json.first[:index]).to eq(0)
+      expect(blockchain.blocks.length).to eq(1)
+      expect(blockchain.last_block.index).to eq(0)
     end
   end
 
-  describe '#as_json' do
+  describe '#to_h' do
     it 'returns an array of block hashes' do
-      expect(blockchain.as_json).to be_an(Array)
-      expect(blockchain.as_json.first).to be_a(Hash)
+      expect(blockchain.to_h).to be_an(Array)
+      expect(blockchain.to_h.first).to be_a(Hash)
     end
   end
 end

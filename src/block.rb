@@ -1,5 +1,7 @@
-require "time"
+require "digest"
 require "dry-struct"
+require "json"
+require "time"
 
 class Block < Dry::Struct
   attribute :index, Types::Integer
@@ -18,11 +20,21 @@ class Block < Dry::Struct
     )
   end
 
-  def as_json
-    to_h.merge(timestamp: timestamp.utc.iso8601)
+  def ==(other)
+    other.is_a?(Block) && to_h == other.to_h
   end
 
-  def ==(other)
-    other.is_a?(Block) && as_json == other.as_json
+  def digest
+    Digest::SHA256.hexdigest(to_json)
+  end
+
+  def to_h
+    super.merge(timestamp: timestamp.utc.iso8601)
+  end
+
+  def to_json
+    to_h
+      .sort.to_h # Sort keys to make JSON stable
+      .then { JSON.generate(_1) }
   end
 end
