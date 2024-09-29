@@ -3,6 +3,7 @@ require 'forwardable'
 class Blockchain
   extend Forwardable
 
+  # TODO: make :blocks private
   attr_reader :blocks
   def_delegator :blocks, :length
 
@@ -19,10 +20,10 @@ class Blockchain
   end
 
   def add_block(block)
-    blocks.unshift(block)
+    blocks << block
   end
 
   def last_block
-    blocks.first
+    blocks.last
   end
 end

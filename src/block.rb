@@ -25,7 +25,7 @@ class Block < Dry::Struct
   attribute :transactions, Types::Array.of(Transaction)
   attribute :previous_block_digest, Types::String
 
-  def self.genesis # TODO: rename to .new_genesis
+  def self.new_genesis
     new(
       index: 0,
       timestamp: Time.now,
@@ -53,17 +53,16 @@ class Block < Dry::Struct
     Digest::SHA256.hexdigest(to_json)
   end
 
-  def to_h_with_digest
-    to_h.merge(digest: digest)
-  end
-
   def to_h
     super.merge(timestamp: timestamp.utc.iso8601)
   end
 
+  def to_h_with_digest
+    to_h.merge(digest: digest)
+  end
+
   def to_json
-    to_h
-      .sort.to_h # Sort keys to make JSON stable
-      .then { JSON.generate(_1) }
+    h_with_stable_keys = to_h.sort.to_h
+    JSON.generate(h_with_stable_keys)
   end
 end

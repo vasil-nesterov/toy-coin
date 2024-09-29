@@ -3,7 +3,7 @@ require_relative '../src/miner'
 require_relative '../src/blockchain'
 
 RSpec.describe Miner do
-  let(:blockchain) { Blockchain.new }
+  let(:blockchain) { Blockchain.new([Block.new_genesis]) }
   let(:miner) { Miner.new(blockchain: blockchain, complexity: 1) }
 
   describe '#mine_next_block' do

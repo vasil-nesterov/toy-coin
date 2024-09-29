@@ -23,7 +23,7 @@ class BlockchainStorage
       # TODO: Replace with a logger
       warn "Blockchain file not found. Initializing with genesis block."
 
-      bc = Blockchain.new([Block.genesis])
+      bc = Blockchain.new([Block.new_genesis])
       save(bc)
       bc
     end
