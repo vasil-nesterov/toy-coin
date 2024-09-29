@@ -3,8 +3,7 @@ require 'forwardable'
 class Blockchain
   extend Forwardable
 
-  # TODO: make :blocks private
-  attr_reader :blocks
+  protected attr_reader :blocks
   def_delegator :blocks, :length
 
   def initialize(blocks)
