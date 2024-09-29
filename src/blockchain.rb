@@ -1,8 +1,12 @@
 class Blockchain
   attr_reader :blocks
-  
-  def initialize
-    @blocks = [Block.genesis]
+
+  def initialize(blocks)
+    @blocks = blocks
+  end
+
+  def ==(other)
+    blocks == other.blocks
   end
 
   def to_h

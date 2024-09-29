@@ -1,5 +1,4 @@
 require "rspec"
-require_relative "../src/block"
 
 describe Block do
   let(:block) {
@@ -11,6 +10,27 @@ describe Block do
       previous_block_digest: ""
     )
   }
+
+  describe ".from_json" do
+    it "returns a block from a JSON string" do
+      json = block.to_json
+      expect(Block.from_json(json)).to eq(block)
+    end
+
+    it "raises an error if the JSON is invalid" do
+      invalid_json = <<~JSON
+        {
+          "index":1,
+          "timestamp":"2024-05-01T00:00:00Z",
+          "proof":0,
+          "transactions":[]
+        }
+      JSON
+      expect { 
+        Block.from_json(invalid_json)
+      }.to raise_error(Block::InvalidBlockError)
+    end
+  end
 
   describe "#==" do
     let(:another_block) {
