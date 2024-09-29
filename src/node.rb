@@ -22,5 +22,7 @@ class Node
   def mine_next_block
     miner = Miner.new(blockchain: @blockchain, complexity: 5)
     miner.mine_next_block(mempool: @mempool)
+
+    @blockchain_storage.save(@blockchain)
   end
 end
