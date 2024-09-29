@@ -26,17 +26,19 @@ RSpec.describe BlockchainStorage do
   let(:path_to_blockchain_file) { "#{ROOT_DIR}/spec/tmp/blockchain.json" }
   let(:storage) { BlockchainStorage.new(path_to_blockchain_file) }
 
-  describe "saving and loading" do
-    it "saves the blockchain to a file" do
-      storage.save(blockchain)
-      expect(File.exist?(path_to_blockchain_file)).to be_truthy
-    end
-
+  describe "#load" do
     it "loads the blockchain from a file" do
       storage.save(blockchain)
 
       loaded_blockchain = storage.load
       expect(loaded_blockchain).to eq(blockchain)
+    end
+  end
+
+  describe "#save" do
+    it "saves the blockchain to a file" do
+      storage.save(blockchain)
+      expect(File.exist?(path_to_blockchain_file)).to be_truthy
     end
   end
 end

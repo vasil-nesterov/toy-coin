@@ -39,7 +39,6 @@ class Block < Dry::Struct
     validation_result = Contract.new.call(hash)
 
     if validation_result.success?
-      p validation_result.to_h
       new(validation_result.to_h)
     else
       raise InvalidBlockError, "Invalid block: #{hash}, errors: #{validation_result.errors.to_h}"

@@ -1,2 +1,4 @@
+/data/*
+
 /spec/tmp/*
 !/spec/tmp/.gitkeep

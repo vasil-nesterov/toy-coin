@@ -1,5 +1,10 @@
+require 'forwardable'
+
 class Blockchain
+  extend Forwardable
+
   attr_reader :blocks
+  def_delegator :blocks, :length
 
   def initialize(blocks)
     @blocks = blocks

@@ -1,6 +1,6 @@
-require_relative 'middleware/toy_state_middleware'
 require_relative '../config/boot'
+require_relative 'middleware/node_middleware'
 
-use ToyStateMiddleware
+use NodeMiddleware
 
 run Web.app
