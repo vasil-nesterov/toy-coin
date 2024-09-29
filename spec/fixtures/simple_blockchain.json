@@ -1,26 +1,29 @@
-[
-  {
-    "index": 0,
-    "timestamp": "2024-09-29T11:29:34Z",
-    "proof": 0,
-    "transactions": [
-
-    ],
-    "previous_block_digest": "",
-    "digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc"
-  },
-  {
-    "index": 1,
-    "timestamp": "2024-09-29T11:30:31Z",
-    "proof": 1,
-    "transactions": [
-      {
-        "sender": "alice",
-        "recipient": "bob",
-        "value": 1.0
-      }
-    ],
-    "previous_block_digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc",
-    "digest": "a03a71030b23fa5cf246c00488459b7a085624840c271910254a7c1e89b47483"
-  }
-]
+{
+  "complexity": 1,
+  "blocks": [
+    {
+      "index": 0,
+      "timestamp": "2024-09-29T11:29:34Z",
+      "proof": 0,
+      "transactions": [
+  
+      ],
+      "previous_block_digest": "",
+      "digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc"
+    },
+    {
+      "index": 1,
+      "timestamp": "2024-09-29T11:30:31Z",
+      "proof": 15807798187211696485981571950331769837281891951555582552193146759715811261322,
+      "transactions": [
+        {
+          "sender": "alice",
+          "recipient": "bob",
+          "value": 1.0
+        }
+      ],
+      "previous_block_digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc",
+      "digest": "a03a71030b23fa5cf246c00488459b7a085624840c271910254a7c1e89b47483"
+    }
+  ]
+}

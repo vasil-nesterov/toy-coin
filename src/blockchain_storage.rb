@@ -1,4 +1,5 @@
 require 'json'
+
 class BlockchainStorage
   attr_reader :path_to_file
   
@@ -7,12 +8,18 @@ class BlockchainStorage
   end
 
   def load
-    raw_data = File.read(path_to_file)
-    blocks = JSON
-      .parse(raw_data)
-      .map { |block_hash| Block.from_h(block_hash) }
+    data = JSON.parse(File.read(path_to_file))
 
-    Blockchain.new(blocks)
+    complexity = ENV.fetch('COMPLEXITY').to_i
+    raise "Blockchain complexity doesn't match ENV" unless complexity == data['complexity']
+
+    bc = Blockchain.new(complexity)
+
+    data['blocks'].each do |block_hash| 
+      bc.add_block(Block.from_h(block_hash))
+    end
+
+    bc
   end
 
   # Temporary method; until the network is up and somewhat stable
@@ -23,7 +30,8 @@ class BlockchainStorage
       # TODO: Replace with a logger
       warn "Blockchain file not found. Initializing with genesis block."
 
-      bc = Blockchain.new([Block.new_genesis])
+      bc = Blockchain.new(ENV.fetch('COMPLEXITY').to_i)
+      bc.add_block(Block.new_genesis)
       save(bc)
       bc
     end

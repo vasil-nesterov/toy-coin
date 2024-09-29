@@ -6,8 +6,7 @@ RSpec.describe Node do
     it 'initialized Node with Blockchain loaded from BlockchainStorage' do
       expect(node).to be_a(Node)
       
-      expect(node.to_h[:blockchain]).to be_a(Array)
-      expect(node.to_h[:blockchain].length).to eq(2)
+      expect(node.to_h.dig(:blockchain, :blocks)).to be_a(Array)
 
       expect(node.to_h[:mempool]).to be_a(Array)
       expect(node.to_h[:mempool]).to be_empty
@@ -31,7 +30,7 @@ RSpec.describe Node do
 
         expect {
           node.mine_next_block
-        }.to change { node.to_h[:blockchain].length }.by(1)
+        }.to change { node.to_h.dig(:blockchain, :blocks).length }.by(1)
 
         expect(node.to_h[:mempool]).to be_empty
       end

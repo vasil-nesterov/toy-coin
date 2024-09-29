@@ -1,12 +1,11 @@
 class Miner
-  def initialize(blockchain:, complexity:)
+  def initialize(blockchain:)
     @blockchain = blockchain
-    @complexity = complexity
   end
 
   def mine_next_block(mempool:)
     last_block = @blockchain.last_block
-    new_block_proof = ProofOfWork.new(@complexity).next_proof(last_block.proof)
+    new_block_proof = ProofOfWork.new(@blockchain.complexity).next_proof(last_block.proof)
 
     new_block = Block.new(
       index: last_block.index + 1,

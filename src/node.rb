@@ -10,8 +10,8 @@ class Node
 
   def to_h
     {
-      mempool: @mempool.to_h.reverse,
-      blockchain: @blockchain.to_h.reverse
+      mempool: @mempool.to_h,
+      blockchain: @blockchain.to_h
     }
   end
 
@@ -20,7 +20,7 @@ class Node
   end
 
   def mine_next_block
-    miner = Miner.new(blockchain: @blockchain, complexity: 5)
+    miner = Miner.new(blockchain: @blockchain)
     miner.mine_next_block(mempool: @mempool)
   end
 
