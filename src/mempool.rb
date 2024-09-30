@@ -1,10 +1,11 @@
+# typed: true
 class Mempool
   def initialize
     @transactions = []
   end
 
   def add_transaction(transaction)
-    @transactions.unshift(transaction)
+    @transactions << transaction
   end
 
   def wipe

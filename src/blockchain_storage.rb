@@ -1,3 +1,4 @@
+# typed: true
 require 'json'
 
 class BlockchainStorage
@@ -15,8 +16,14 @@ class BlockchainStorage
 
     bc = Blockchain.new(complexity)
 
+    # TODO: Refactor this mess
     data['blocks'].each do |block_hash| 
-      bc.add_block(Block.from_h(block_hash))
+      block_attrs = Block::Contract.new.call(block_hash).to_h
+      block_attrs[:transactions] = block_attrs[:transactions].map do |transaction_hash| 
+        Transaction.new(Transaction::Contract.new.call(transaction_hash).to_h)
+      end
+
+      bc.add_block(Block.new(block_attrs))
     end
 
     bc

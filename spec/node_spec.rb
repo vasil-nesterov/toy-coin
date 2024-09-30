@@ -1,3 +1,4 @@
+# typed: false
 RSpec.describe Node do
   let(:blockchain_storage) { BlockchainStorage.new("#{ROOT_DIR}/spec/fixtures/simple_blockchain.json") }
   let(:node) { Node.new(blockchain_storage) }

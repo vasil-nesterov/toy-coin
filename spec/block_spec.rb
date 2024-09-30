@@ -1,3 +1,4 @@
+# typed: false
 require "rspec"
 
 describe Block do
@@ -47,11 +48,11 @@ describe Block do
     it "returns a hash representation of the block" do
       expect(block.to_h).to eq(
         {
-          index: 1,
-          timestamp: "2024-05-01T00:00:00Z",
-          proof: 0,
-          transactions: [],
-          previous_block_digest: "" 
+          'index' => 1,
+          'timestamp' => '2024-05-01T00:00:00Z',
+          'proof' => 0,
+          'transactions' => [],
+          'previous_block_digest' => '' 
         }
       )
     end 
@@ -61,12 +62,12 @@ describe Block do
     it "returns a hash representation of the block with the digest" do
       expect(block.to_h_with_digest).to eq(
         {
-          index: 1,
-          timestamp: "2024-05-01T00:00:00Z",
-          proof: 0,
-          transactions: [],
-          previous_block_digest: "",
-          digest: "42dc56a11fa5ca53e309a6b90e232ca9ca8706801a2d4cfab3b967f066bb0a65"
+          'index' => 1,
+          'timestamp' => '2024-05-01T00:00:00Z',
+          'proof' => 0,
+          'transactions' => [],
+          'previous_block_digest' => '',
+          'digest' => '42dc56a11fa5ca53e309a6b90e232ca9ca8706801a2d4cfab3b967f066bb0a65'
         }
       )
     end

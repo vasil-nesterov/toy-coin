@@ -1,3 +1,4 @@
+# typed: true
 class Miner
   def initialize(blockchain:)
     @blockchain = blockchain

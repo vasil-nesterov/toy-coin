@@ -1,3 +1,4 @@
+# typed: true
 class NodeMiddleware
   PATH_TO_BLOCKCHAIN_STORAGE = "#{ROOT_DIR}/data/blockchain.json"
   

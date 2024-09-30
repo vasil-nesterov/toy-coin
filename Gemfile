@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
-gem "dry-struct", "~> 1.6"
+gem "sorbet", "~> 0.5"
+gem "sorbet-runtime", "~> 0.5"
+
 gem "dry-validation", "~> 1.10"
 
 gem "roda", "~> 3.84"

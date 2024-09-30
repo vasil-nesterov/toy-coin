@@ -1,7 +1,12 @@
+# typed: true
+
 # Node exposes Blockchain and Mempool only for visualization purpose,
 # Everything else should be done through Node methods.
 class Node
-  def initialize(blockchain_storage)
+  extend T::Sig
+
+  sig { params(blockchain_storage: BlockchainStorage).void }
+  def initialize(blockchain_storage, )
     @blockchain_storage = blockchain_storage
     @blockchain = @blockchain_storage.load_or_init
 

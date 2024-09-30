@@ -1,3 +1,4 @@
+# typed: false
 require 'forwardable'
 
 class Blockchain

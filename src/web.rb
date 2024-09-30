@@ -1,3 +1,4 @@
+# typed: false
 require "roda"
 
 class Web < Roda

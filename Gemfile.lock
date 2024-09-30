@@ -25,11 +25,6 @@ GEM
       dry-logic (>= 1.4, < 2)
       dry-types (>= 1.7, < 2)
       zeitwerk (~> 2.6)
-    dry-struct (1.6.0)
-      dry-core (~> 1.0, < 2)
-      dry-types (>= 1.7, < 2)
-      ice_nine (~> 0.11)
-      zeitwerk (~> 2.6)
     dry-types (1.7.2)
       bigdecimal (~> 3.0)
       concurrent-ruby (~> 1.0)
@@ -45,7 +40,6 @@ GEM
       zeitwerk (~> 2.6)
     ffi (1.17.0)
     ffi (1.17.0-arm64-darwin)
-    ice_nine (0.11.2)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -73,6 +67,10 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
+    sorbet (0.5.11589)
+      sorbet-static (= 0.5.11589)
+    sorbet-runtime (0.5.11589)
+    sorbet-static (0.5.11589-universal-darwin)
     webrick (1.8.2)
     zeitwerk (2.6.18)
 
@@ -82,12 +80,13 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv (~> 3.1)
-  dry-struct (~> 1.6)
   dry-validation (~> 1.10)
   rackup (~> 2.1)
   rerun (~> 0.14)
   roda (~> 3.84)
   rspec (~> 3.13)
+  sorbet (~> 0.5)
+  sorbet-runtime (~> 0.5)
   zeitwerk (~> 2.6)
 
 BUNDLED WITH

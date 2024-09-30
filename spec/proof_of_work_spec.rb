@@ -1,3 +1,4 @@
+# typed: false
 
 require "rspec"
 require_relative "../src/proof_of_work"

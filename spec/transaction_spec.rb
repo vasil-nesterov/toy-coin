@@ -1,11 +1,16 @@
+# typed: false
 require 'rspec'
 require_relative '../src/transaction'
 
 RSpec.describe Transaction do
   let(:valid_transaction) { Transaction.new(sender: 'Alice', recipient: 'Bob', value: 10.5) }
 
-  it 'has correct attributes' do
-    expect(valid_transaction.to_h).to eq(sender: 'Alice', recipient: 'Bob', value: 10.5)
+  it '#to_h' do
+    expect(valid_transaction.to_h).to eq(
+      'sender' => 'Alice',
+      'recipient' => 'Bob',
+      'value' => 10.5
+    )
   end
 
   describe Transaction::Contract do

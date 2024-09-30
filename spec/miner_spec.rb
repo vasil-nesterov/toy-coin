@@ -1,3 +1,4 @@
+# typed: false
 RSpec.describe Miner do
   let(:blockchain) { 
     bc = Blockchain.new(ENV.fetch('COMPLEXITY').to_i)

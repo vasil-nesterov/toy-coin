@@ -1,3 +1,4 @@
+# typed: strict
 require 'debug'
 
 ENV['RSPEC'] = 'true'

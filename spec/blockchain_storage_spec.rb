@@ -1,3 +1,4 @@
+# typed: false
 RSpec.describe BlockchainStorage do
   let(:blockchain) { 
     bc = Blockchain.new(ENV.fetch('COMPLEXITY').to_i)
@@ -8,7 +9,6 @@ RSpec.describe BlockchainStorage do
         timestamp: Time.parse("2024-09-29T11:29:34Z"),
         proof: 0,
         transactions: [],
-        digest: "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc",
         previous_block_digest: ""
       )
     )
@@ -21,7 +21,6 @@ RSpec.describe BlockchainStorage do
         transactions: [
           Transaction.new(sender: "alice", recipient: "bob", value: 1.0)
         ],
-        digest: "a03a71030b23fa5cf246c00488459b7a085624840c271910254a7c1e89b47483",
         previous_block_digest: "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc"
       )
     )
