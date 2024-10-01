@@ -1,3 +1,6 @@
 #!/bin/sh
 
+set -e
+
+srb tc
 bundle exec rerun --dir src -- rackup -p 7000 config/config.ru
