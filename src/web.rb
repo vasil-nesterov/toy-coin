@@ -16,7 +16,6 @@ class Web < Roda
 
     r.post "mine" do
       node.mine_next_block
-      node.save_blockchain
       { status: "success", state: node.to_h }
     end
 

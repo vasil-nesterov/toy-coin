@@ -1,10 +1,16 @@
 # typed: true
+
 class Miner
-  def initialize(blockchain:)
+  extend T::Sig
+
+  sig { params(blockchain: Blockchain, mempool: Mempool).void }
+  def initialize(blockchain:, mempool:)
     @blockchain = blockchain
+    @mempool = mempool
   end
 
-  def mine_next_block(mempool:)
+  sig { void }
+  def mine_next_block
     last_block = @blockchain.last_block
     new_block_proof = ProofOfWork.new(@blockchain.complexity).next_proof(last_block.proof)
 
@@ -12,7 +18,7 @@ class Miner
       index: last_block.index + 1,
       timestamp: Time.now.utc,
       proof: new_block_proof,
-      transactions: mempool.wipe,
+      transactions: @mempool.wipe,
       previous_block_digest: last_block.digest
     )
 
