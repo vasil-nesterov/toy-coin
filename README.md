@@ -1,5 +1,4 @@
 # TODO
-- [ ] Generate a coin when adding a new block
 - [ ] Transaction signing; check that signature is valid when adding to mempool
 - [ ] UTXO
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
@@ -11,7 +10,8 @@
 # Changelog
 
 ## Oct 2, 2024
-- [x] Node: Load or init ed25519 key on startup
+- [x] Load or init ed25519 key when Node starts
+- [x] Generate a coin when adding a new block
 
 ## Oct 1, 2024
 - [x] Run miner in background
