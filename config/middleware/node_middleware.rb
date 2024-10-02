@@ -6,7 +6,8 @@ class NodeMiddleware
     @app = app
     
     @node = Node.new(
-      BlockchainStorage.new(PATH_TO_BLOCKCHAIN_STORAGE)
+      node_name: ENV.fetch("NODE_NAME"),
+      blockchain_storage: BlockchainStorage.new(PATH_TO_BLOCKCHAIN_STORAGE)
     )
   end
 
