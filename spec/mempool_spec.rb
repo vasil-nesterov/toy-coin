@@ -1,13 +1,16 @@
 # typed: false
+# 
 require 'rspec'
 
 RSpec.describe Mempool do
+  let(:alice) { Key.load_from_file("#{ROOT_DIR}/spec/fixtures/alice_test.key") }
+
   let(:transaction) { 
     Transaction.new(
-      sender: 'Alice', 
+      sender: alice.address, 
       recipient: 'Bob', 
-      value: 10.0 
-    )
+      value: 10.0
+    ).tap { _1.sign_with_key(alice) }
   }
   let(:mempool) { Mempool.new }
 

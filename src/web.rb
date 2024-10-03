@@ -23,10 +23,7 @@ class Web < Roda
       raw_transaction = JSON.parse(r.body.read)
       validation_result = Transaction::Contract.new.call(raw_transaction)
       
-      if validation_result.success?
-        node.add_transaction_to_mempool(
-          Transaction.new(validation_result.to_h)
-        )
+      if validation_result.success? && node.add_transaction_to_mempool(Transaction.new(validation_result.to_h))
         { status: "success", state: node.to_h }
       else
         { status: "error", error: validation_result.errors.to_h.to_s }

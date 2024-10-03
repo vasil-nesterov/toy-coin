@@ -3,11 +3,11 @@
 class Miner
   extend T::Sig
 
-  sig { params(blockchain: Blockchain, mempool: Mempool, coinbase_address: String).void }
-  def initialize(blockchain:, mempool:, coinbase_address:)
+  sig { params(blockchain: Blockchain, mempool: Mempool, private_key: Key).void }
+  def initialize(blockchain:, mempool:, private_key:)
     @blockchain = blockchain
     @mempool = mempool
-    @coinbase_address = coinbase_address
+    @private_key = private_key
   end
 
   sig { void }
@@ -32,9 +32,10 @@ class Miner
   def add_coinbase_tx
     tx = Transaction.new(
       sender: "0",
-      recipient: @coinbase_address,
+      recipient: @private_key.address,
       value: 1
     )
+    tx.sign_with_key(@private_key)
 
     @mempool.add_transaction(tx)
   end

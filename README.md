@@ -1,13 +1,20 @@
 # TODO
-- [ ] Transaction signing; check that signature is valid when adding to mempool
-- [ ] UTXO
+-
+- [ ] UTXO: one sender, one recipient
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
 - [ ] txs, multiple in -> multiple out
 - [ ] **Implement consensus
 
 - [ ] Tx versioning
+- [ ] Start a 24/7 node
+- [ ] EVM?
 
 # Changelog
+
+## Oct 3, 2024
+- [x] Transaction signing.
+  - Sign coinbase tx with miner's key
+  - Check that signature is valid when adding to mempool
 
 ## Oct 2, 2024
 - [x] Load or init ed25519 key when Node starts

@@ -33,6 +33,11 @@ class Key
     @public_key = T.let(@private_key.verify_key, Ed25519::VerifyKey)
   end
 
+  sig { params(data: String).returns(String) }
+  def sign(data)
+    @private_key.sign(data).to_hex
+  end
+
   sig { returns(String) }
   def to_hex
     @private_key.to_bytes.to_hex

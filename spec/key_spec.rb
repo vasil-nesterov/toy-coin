@@ -5,8 +5,11 @@ RSpec.describe Key do
   let(:key) { Key.new(hex) }
 
   describe '.load_or_init_from_file' do
-    it 'loads an existing key or creates a new one' do
-      loaded_key = Key.load_or_init_from_file("#{ROOT_DIR}/spec/fixtures/test.key")
+    it 'loads an existing key when the file exists' do
+      path = "#{ROOT_DIR}/spec/fixtures/alice_test.key"
+      raise "File #{path} does not exist" unless File.exist?(path)
+
+      loaded_key = Key.load_or_init_from_file(path)
 
       expect(loaded_key).to be_a(Key)
       expect(loaded_key.to_hex).to eq("fef359681e0718da983cb19674c93683d1db7efebed262407cfbb5f0d5d9a14b")
@@ -24,7 +27,7 @@ RSpec.describe Key do
   end
 
   describe ".load_from_file" do
-    let(:key) { Key.load_from_file("#{ROOT_DIR}/spec/fixtures/test.key") }
+    let(:key) { Key.load_from_file("#{ROOT_DIR}/spec/fixtures/alice_test.key") }
 
     it "loads an existing key" do
       expect(key).to be_a(Key)

@@ -1,20 +1,29 @@
-# typed: true
+# typed: strict
+
 class Mempool
+  extend T::Sig
+
+  sig { void }
   def initialize
-    @transactions = []
+    @transactions = T.let([], T::Array[Transaction])
   end
 
+  sig { params(transaction: Transaction).returns(T::Boolean) }
   def add_transaction(transaction)
-    @transactions << transaction
+    if transaction.has_valid_signature?
+      @transactions << transaction
+      true
+    else
+      false
+    end
   end
 
+  sig { returns(T::Array[Transaction]) }
   def wipe
-    result = @transactions
-    @transactions = []
-
-    result
+    @transactions.tap { @transactions = [] }
   end
 
+  sig { returns(T::Array[T::Hash[String, T.untyped]]) }
   def to_h
     @transactions.map(&:to_h)
   end
