@@ -9,6 +9,7 @@ Dir.glob("#{ROOT_DIR}/src/core_extensions/*.rb").each do |file|
 end
 
 $loader = Zeitwerk::Loader.new
+$loader.push_dir("config/middleware")
 $loader.push_dir("src")
 $loader.enable_reloading
 $loader.setup

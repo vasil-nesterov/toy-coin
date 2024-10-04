@@ -31,7 +31,7 @@ class Node
       address: @private_key.address,
       miner: miner_status,
       mempool: @mempool.to_h,
-      blockchain: @blockchain.to_h
+      blockchain: @blockchain.to_h.tap { |h| h[:blocks].reverse! }
     }
   end
 
