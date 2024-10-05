@@ -1,5 +1,4 @@
 # TODO
-- [ ] Private route: Send coins
 - [ ] Tx: multiple in, multiple out. Replace BalanceRegistry with UTXO
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
 - [ ] ***Implement consensus
@@ -12,11 +11,17 @@
 - [ ] EVM?
 - [ ] Web::PrivateInterface, Web::PublicInterface: ractors, not threads
 
+## Refactorings
+- [ ] Node shouldn't have access to private key. Only wallet should.
+- [ ] Fix leaky abstractions. Get rid of instance_variable_get-s.
+- [ ] Get rid of Dry validation.
+
 # Changelog
 
 ## Oct 5, 2024
 - [x] Ensure that an address always has a positive balance
 - [x] Add private route /balance
+- [x] Add private route: /send_coins
 
 ## Oct 4, 2024
 - [x] Split web interface into public and private ones running on different ports

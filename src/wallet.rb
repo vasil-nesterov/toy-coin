@@ -18,4 +18,16 @@ class Wallet
   def balance
     @node.balance(@key.address)
   end
+
+  sig { params(recipient_address: String, amount: Float).void }
+  def send_coins(recipient_address, amount)
+    tx = Transaction.new(
+      sender: @key.address, 
+      recipient: recipient_address,
+      value: amount
+    )
+    tx.sign_with_key(@key)
+
+    @node.add_transaction_to_mempool(tx)
+  end
 end

@@ -22,6 +22,8 @@ class Node
     @mempool = T.let(Mempool.new, Mempool)
 
     @miner = T.let(nil, T.nilable(Thread))
+
+    @balance_registry = T.let(@blockchain.balance_registry.deep_clone, BalanceRegistry)
   end
 
   sig { returns(T::Hash[String, T.untyped]) }
@@ -37,12 +39,24 @@ class Node
 
   sig { params(address: String).returns(Float) }
   def balance(address)
-    @blockchain.balance_registry.balance(address)
+    @balance_registry.balance(address)
   end
 
   sig { params(transaction: Transaction).returns(T::Boolean) }
   def add_transaction_to_mempool(transaction)
-    @mempool.add_transaction(transaction)
+    result = @mempool.add_transaction(transaction)
+
+    if result
+      @balance_registry.process_transaction(transaction)
+    end
+
+    result
+  end
+
+  sig { params(block: Block).void }
+  def add_block(block)
+    @blockchain.add_block(block)
+    @balance_registry = @blockchain.balance_registry.deep_clone
   end
 
   sig { returns(String) }
@@ -59,7 +73,7 @@ class Node
     raise "Miner is already running" if miner_status == MINER_RUNNING
 
     @miner = Thread.new do
-      Miner.new(blockchain: @blockchain, mempool: @mempool, private_key: @private_key).mine_next_block
+      Miner.new(blockchain: @blockchain, mempool: @mempool, private_key: @private_key, node: self).mine_next_block
       # TODO: move BS.save to miner
       @blockchain_storage.save(@blockchain) if ENV["PERSIST_BLOCKCHAIN"] == "true"
     end

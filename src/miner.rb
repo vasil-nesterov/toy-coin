@@ -1,13 +1,16 @@
 # typed: strict
 
+# TODO: Miner should send new block to Node
+# TODO: Miner shouldn't wipe mempool. Node should remove block.txs from mempool during Node#add_block
 class Miner
   extend T::Sig
 
-  sig { params(blockchain: Blockchain, mempool: Mempool, private_key: Key).void }
-  def initialize(blockchain:, mempool:, private_key:)
+  sig { params(blockchain: Blockchain, mempool: Mempool, private_key: Key, node: Node).void }
+  def initialize(blockchain:, mempool:, private_key:, node:)
     @blockchain = blockchain
     @mempool = mempool
     @private_key = private_key
+    @node = node
   end
 
   sig { void }
@@ -24,8 +27,8 @@ class Miner
       transactions: @mempool.wipe,
       previous_block_digest: last_block.digest
     )
-
-    @blockchain.add_block(new_block)
+    
+    @node.add_block(new_block)
   end
 
   sig { void }

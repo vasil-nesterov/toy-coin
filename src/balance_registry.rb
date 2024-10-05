@@ -9,14 +9,14 @@ class BalanceRegistry
   sig { returns(T::Hash[String, Float]) }
   attr_reader :balances
 
-  sig { void }
-  def initialize
-    @balances = T.let(Hash.new, T::Hash[String, Float])
+  sig { params(initial_balances: T::Hash[String, Float]).void }
+  def initialize(initial_balances: {})
+    @balances = initial_balances
   end
 
-  sig { params(block: Block).void }
-  def process_block(block)
-    block.transactions.each { process_transaction(_1) }
+  sig { returns(BalanceRegistry) }
+  def deep_clone
+    BalanceRegistry.new(initial_balances: @balances.dup)
   end
 
   sig { params(address: String).returns(Float) }
@@ -29,13 +29,18 @@ class BalanceRegistry
     @balances
   end
 
-  private
+  sig { params(block: Block).void }
+  def process_block(block)
+    block.transactions.each { process_transaction(_1) }
+  end
 
   sig { params(tx: Transaction).void }
   def process_transaction(tx)
     remove_coins_from_sender(tx) unless tx.coinbase?
     add_coins_to_recipient(tx)
   end
+
+  private
 
   sig { params(tx: Transaction).void }
   def add_coins_to_recipient(tx)
