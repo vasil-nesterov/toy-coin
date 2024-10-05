@@ -10,8 +10,18 @@ module Web
     end
 
     route do |r|
-      node = env['node'] or raise "Node not injected"
-      
+      wallet = env['wallet'] or raise "Wallet not injected"
+
+      r.get "balance" do
+        { 
+          status: "success", balance: wallet.balance
+        }
+      end
+
+      r.post "send_coins" do
+        raise "Not implemented"
+      end
+
       r.post "mine" do
         node.mine_next_block
         { status: "success", state: node.to_h }

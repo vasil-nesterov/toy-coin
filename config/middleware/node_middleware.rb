@@ -1,6 +1,8 @@
 # typed: true
 
 class NodeMiddleware
+  extend T::Sig
+
   def initialize(app, node)
     @app = app
     @node = node

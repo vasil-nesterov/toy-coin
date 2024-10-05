@@ -1,5 +1,4 @@
 # TODO
-- [ ] Private route: Check balance
 - [ ] Private route: Send coins
 - [ ] Tx: multiple in, multiple out. Replace BalanceRegistry with UTXO
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
@@ -16,7 +15,8 @@
 # Changelog
 
 ## Oct 5, 2024
-[x] Ensure that an address always has a positive balance
+- [x] Ensure that an address always has a positive balance
+- [x] Add private route /balance
 
 ## Oct 4, 2024
 - [x] Split web interface into public and private ones running on different ports

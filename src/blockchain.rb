@@ -1,4 +1,5 @@
-# typed: false
+# typed: strict
+# 
 require 'forwardable'
 
 class Blockchain
@@ -6,6 +7,9 @@ class Blockchain
 
   extend T::Sig
   extend Forwardable
+
+  sig { returns(BalanceRegistry) }
+  attr_reader :balance_registry
 
   sig { params(complexity: Integer).void }
   def initialize(complexity)
@@ -20,6 +24,7 @@ class Blockchain
 
   def_delegator :@blocks, :length
   
+  sig { returns(T::Hash[String, T.untyped]) }
   def to_h
     {
       complexity: complexity,
@@ -28,6 +33,7 @@ class Blockchain
     }
   end
 
+  sig { params(next_block: Block).void }
   def add_block(next_block)
     unless @blocks.empty?
       if next_block.previous_block_digest != last_block.digest
@@ -45,7 +51,8 @@ class Blockchain
     @balance_registry.process_block(next_block)
   end
 
+  sig { returns(Block) }
   def last_block
-    @blocks.last
+    @blocks.last or raise "No blocks"
   end
 end

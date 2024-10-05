@@ -35,6 +35,11 @@ class Node
     }
   end
 
+  sig { params(address: String).returns(Float) }
+  def balance(address)
+    @blockchain.balance_registry.balance(address)
+  end
+
   sig { params(transaction: Transaction).returns(T::Boolean) }
   def add_transaction_to_mempool(transaction)
     @mempool.add_transaction(transaction)
