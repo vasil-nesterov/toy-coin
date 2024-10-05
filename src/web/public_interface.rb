@@ -18,9 +18,9 @@ module Web
 
       r.post "transactions" do
         raw_transaction = JSON.parse(r.body.read)
-        validation_result = Transaction::Contract.new.call(raw_transaction)
-        
-        if validation_result.success? && node.add_transaction_to_mempool(Transaction.new(validation_result.to_h))
+        transaction = Transaction.from_h(raw_transaction)
+
+        if node.add_transaction_to_mempool(transaction)
           { status: "success", state: node.to_h }
         else
           { status: "error", error: validation_result.errors.to_h.to_s }

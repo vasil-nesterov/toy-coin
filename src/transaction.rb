@@ -13,7 +13,8 @@ class Transaction < T::Struct
   prop :value, Float
   prop :signature, T.nilable(String)
 
-  # WHY: .from_hash from Sorbet doesn't do type checking, which is far from ideal
+  # Why?
+  #   .from_hash from Sorbet doesn't do type checking, which is far from ideal
   # TODO: Try out https://github.com/maxveldink/sorbet-schema
   sig { params(payload: T::Hash[String, T.untyped]).returns(Transaction) }
   def self.from_hash(payload)

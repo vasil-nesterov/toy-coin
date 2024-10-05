@@ -35,24 +35,16 @@ class Blockchain
 
   sig { params(next_block: Block).void }
   def add_block(next_block)
-    unless @blocks.empty?
-      if next_block.previous_block_digest != last_block.digest
-        msg = "Block #{next_block.to_h_with_digest} has invalid previous_block_digest. Previous block: #{last_block.to_h_with_digest}"
-        raise InvalidBlockAddedError, msg
-      end
-  
-      unless ProofOfWork.new(@complexity).valid_proof?(next_block.proof, last_block.proof)
-        msg = "Block #{next_block.to_h_with_digest} has invalid proof"
-        raise InvalidBlockAddedError, msg
-      end
+    if BlockValidator.new(next_block, last_block).call
+      @blocks << next_block
+      @balance_registry.process_block(next_block)
+    else
+      raise InvalidBlockAddedError, "Block #{next_block.to_h_with_digest} is invalid"
     end
-
-    @blocks << next_block
-    @balance_registry.process_block(next_block)
   end
 
-  sig { returns(Block) }
+  sig { returns(T.nilable(Block)) }
   def last_block
-    @blocks.last or raise "No blocks"
+    @blocks.last
   end
 end

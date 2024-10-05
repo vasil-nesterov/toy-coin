@@ -54,7 +54,7 @@ class Node
   # TODO: Find a better way to organize this
   sig { returns(Block) }
   def last_block
-    @blockchain.last_block
+    T.must(@blockchain.last_block)
   end
 
   sig { returns(Integer) }

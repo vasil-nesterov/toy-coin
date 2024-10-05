@@ -1,6 +1,6 @@
 # typed: false
+
 require "digest"
-require "dry-validation"
 require "json"
 require "sorbet-runtime"
 require "time"
@@ -8,18 +8,6 @@ require "time"
 class Block < T::Struct
   InvalidBlockError = Class.new(StandardError)
 
-  class Contract < Dry::Validation::Contract
-    json do
-      required(:index).filled(:integer).value(gteq?: 0)
-      required(:timestamp).filled(:time)
-      required(:proof).filled(:integer).value(gteq?: 0)
-      required(:transactions).value(:array).each do
-        hash
-      end
-      required(:previous_block_digest).value(:string)
-    end
-  end
-  
   prop :index, Integer
   prop :timestamp, Time
   prop :proof, Integer
@@ -36,17 +24,18 @@ class Block < T::Struct
     )
   end
 
-  def self.from_h(hash)
-    validation_result = Contract.new.call(hash)
+  def self.from_h(payload)
+    index, timestamp, proof, transactions, previous_block_digest = payload.values_at(
+      "index", "timestamp", "proof", "transactions", "previous_block_digest"
+    )
 
-    if validation_result.success?
-      validation_result.to_h.then do |hash|
-        hash[:transactions] = hash[:transactions]&.map { |t| Transaction.from_h(t) }
-        new(hash)
-      end
-    else
-      raise InvalidBlockError, "Invalid block: #{hash}, errors: #{validation_result.errors.to_h}"
-    end
+    new(
+      index:,
+      timestamp: Time.parse(timestamp),
+      proof:,
+      transactions: transactions.map { |t| Transaction.from_hash(t) },
+      previous_block_digest:
+    )
   end
 
   def ==(other)

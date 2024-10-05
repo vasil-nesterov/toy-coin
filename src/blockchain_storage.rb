@@ -16,14 +16,10 @@ class BlockchainStorage
 
     bc = Blockchain.new(complexity)
 
-    # TODO: Refactor this mess
     data['blocks'].each do |block_hash| 
-      block_attrs = Block::Contract.new.call(block_hash).to_h
-      block_attrs[:transactions] = block_attrs[:transactions].map do |transaction_hash| 
-        Transaction.from_hash(transaction_hash)
-      end
-
-      bc.add_block(Block.new(block_attrs))
+      bc.add_block(
+        Block.from_h(block_hash)
+      )
     end
 
     bc
