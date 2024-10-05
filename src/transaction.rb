@@ -19,9 +19,17 @@ class Transaction < T::Struct
 
   prop :sender, String
   prop :recipient, String
-  prop :value, Numeric
+  prop :value, Float
 
   prop :signature, T.nilable(String)
+
+  def self.new_coinbase(recipient:, value:)
+    new(
+      sender: "0",
+      recipient: recipient,
+      value: value
+    )
+  end
 
   def id
     Digest::Blake3.hexdigest(id_payload)
@@ -38,6 +46,7 @@ class Transaction < T::Struct
   end
 
   def has_valid_signature?
+    # TODO: return true if coinbase?
     return false unless signature
 
     public_key =

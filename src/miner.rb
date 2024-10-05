@@ -33,7 +33,7 @@ class Miner
     tx = Transaction.new(
       sender: "0",
       recipient: @private_key.address,
-      value: 1
+      value: 1.0
     )
     tx.sign_with_key(@private_key)
 

@@ -1,21 +1,28 @@
 # TODO
--
-- [ ] UTXO: one sender, one recipient
+- [ ] Private route: Check balance
+- [ ] Private route: Send coins
+- [ ] Tx: multiple in, multiple out. Replace BalanceRegistry with UTXO
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
-- [ ] txs, multiple in -> multiple out
-- [ ] **Implement consensus
+- [ ] ***Implement consensus
+- [ ] Ensure that app is thread-safe (Consensus, sending coins, mining a block)
+- [ ] Tx: leave some coins as a fee; state it explicitly
+- [ ] Allow to record a name on the blockchain somehow (in tx, or outside)
 
 - [ ] Tx versioning
 - [ ] Start a 24/7 node
 - [ ] EVM?
+- [ ] Web::PrivateInterface, Web::PublicInterface: ractors, not threads
 
 # Changelog
 
-## Oct 3, 2024
-- [x] Transaction signing.
-  - Sign coinbase tx with miner's key
-  - Check that signature is valid when adding to mempool
+## Oct 5, 2024
+[x] Ensure that an address always has a positive balance
 
+## Oct 4, 2024
+- [x] Split web interface into public and private ones running on different ports
+
+## Oct 3, 2024
+- [x] Sign a tx. Ensure that txs in blockchain are signed
 ## Oct 2, 2024
 - [x] Load or init ed25519 key when Node starts
 - [x] Generate a coin when adding a new block

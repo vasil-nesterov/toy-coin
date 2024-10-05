@@ -21,7 +21,7 @@ RSpec.describe Node do
 
   context 'with tx' do
     let(:transaction) { 
-      Transaction.new(sender: alice.address, recipient: 'bob', value: 1.0)
+      Transaction.new(sender: alice.address, recipient: 'bob', value: 0.5)
         .tap { _1.sign_with_key(alice) }
     }
 

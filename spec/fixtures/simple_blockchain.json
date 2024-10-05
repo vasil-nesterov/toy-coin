@@ -6,10 +6,14 @@
       "timestamp": "2024-09-29T11:29:34Z",
       "proof": 0,
       "transactions": [
-  
+        {
+          "sender": "0",
+          "recipient": "ce452613733d00ef8486c475c85f0d8709053802b02e04b8d03a1fbe98506f24",
+          "value": 1.0
+        }
       ],
       "previous_block_digest": "",
-      "digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc"
+      "digest": "d13b908bd834ccbcbac0936ee5c077fc80115cbc7cfcf783cea496835ef20e34"
     },
     {
       "index": 1,
@@ -17,13 +21,14 @@
       "proof": 15807798187211696485981571950331769837281891951555582552193146759715811261322,
       "transactions": [
         {
-          "sender": "alice",
-          "recipient": "bob",
-          "value": 1.0
+          "sender": "ce452613733d00ef8486c475c85f0d8709053802b02e04b8d03a1fbe98506f24",
+          "recipient": "f88ccd9d47b17f8d44429fddd7e01a0876240151568cda9b1c91b4832cb15bc6",
+          "value": 0.5,
+          "signature": "bc9a57771fd81496444236212f51a68d690268cd6403f8531b78882f2dff0c317a7f79c6abc9c0a5b19caa54a0aff2469974501e26c397cc0da83935fcd82c03"
         }
       ],
-      "previous_block_digest": "980a56338b6ccc253a50aa47714aeee9bd75d4beef764b329433dfeb0ea177bc",
-      "digest": "a03a71030b23fa5cf246c00488459b7a085624840c271910254a7c1e89b47483"
+      "previous_block_digest": "d13b908bd834ccbcbac0936ee5c077fc80115cbc7cfcf783cea496835ef20e34",
+      "digest": "fd84b125148d02d666684c86bbf357f986f0e426c8c785bea201057efee3821b"
     }
   ]
 }
