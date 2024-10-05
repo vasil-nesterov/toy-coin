@@ -1,28 +1,27 @@
-# typed: false
+# typed: strict
 
 require 'digest/blake3'
 require 'ed25519'
-require 'dry-validation'
 require 'json'
 require 'sorbet-runtime'
 
 class Transaction < T::Struct
   extend T::Sig
 
-  class Contract < Dry::Validation::Contract
-    json do
-      required(:sender).filled(:string)
-      required(:recipient).filled(:string)
-      required(:value).filled(:float, gt?: 0)
-    end
-  end
-
   prop :sender, String
   prop :recipient, String
   prop :value, Float
-
   prop :signature, T.nilable(String)
 
+  # WHY: .from_hash from Sorbet doesn't do type checking, which is far from ideal
+  # TODO: Try out https://github.com/maxveldink/sorbet-schema
+  sig { params(payload: T::Hash[String, T.untyped]).returns(Transaction) }
+  def self.from_hash(payload)
+    sender, recipient, value, signature = payload.values_at('sender', 'recipient', 'value', 'signature')
+    new(sender:, recipient:, value:, signature:)
+  end
+
+  sig { params(recipient: String, value: Float).returns(Transaction) }
   def self.new_coinbase(recipient:, value:)
     new(
       sender: "0",
@@ -31,23 +30,28 @@ class Transaction < T::Struct
     )
   end
 
+  sig { returns(String) }
   def id
     Digest::Blake3.hexdigest(id_payload)
   end
 
+  sig { returns(T::Hash[String, T.untyped]) }
   def to_h
-    serialize      
-      .sort      
+    serialize
+      .sort
       .to_h # Stabilize output
   end
 
+  sig { returns(T::Boolean) }
   def coinbase?
     sender == "0"
   end
 
+  sig { returns(T::Boolean) }
   def has_valid_signature?
     # TODO: return true if coinbase?
-    return false unless signature
+    signature_bytes = signature&.to_bytes # https://sorbet.org/docs/flow-sensitive#limitations-of-flow-sensitivity
+    return false unless signature_bytes
 
     public_key =
       if coinbase?
@@ -57,7 +61,7 @@ class Transaction < T::Struct
       end
 
     public_key = Ed25519::VerifyKey.new(public_key.to_bytes)
-    public_key.verify(signature.to_bytes, id)
+    public_key.verify(signature_bytes, id)
   rescue Ed25519::VerifyError
     false 
   end
@@ -69,6 +73,7 @@ class Transaction < T::Struct
 
   private 
   
+  sig { returns(String) }
   def id_payload
     to_h
       .slice('sender', 'recipient', 'value')

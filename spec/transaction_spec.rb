@@ -12,6 +12,16 @@ RSpec.describe Transaction do
     )
   }
 
+  describe '.from_hash' do
+    it 'returns a Transaction' do
+      tx = Transaction.from_hash(transaction.to_h)
+
+      expect(tx.sender).to eq(key.address)
+      expect(tx.recipient).to eq('Bob')
+      expect(tx.value).to eq(10.5)
+    end
+  end
+
   describe '#id' do
     it 'is a hexdigest of the transaction' do
       expect(
@@ -47,15 +57,6 @@ RSpec.describe Transaction do
     it 'sets the signature' do
       transaction.sign_with_key(key)
       expect(transaction.signature).to be_a(String)
-    end
-  end
-
-  describe Transaction::Contract do
-    subject(:contract) { Transaction::Contract.new }
-
-    it 'validates transactions' do
-      expect(contract.call(sender: 'Alice', recipient: 'Bob', value: 10.5).errors).to be_empty
-      expect(contract.call(sender: '', recipient: '', value: 0).errors.count).to eq(3)
     end
   end
 end

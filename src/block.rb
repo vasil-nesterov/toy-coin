@@ -14,12 +14,12 @@ class Block < T::Struct
       required(:timestamp).filled(:time)
       required(:proof).filled(:integer).value(gteq?: 0)
       required(:transactions).value(:array).each do
-        hash(Transaction::Contract.new.schema)
+        hash
       end
       required(:previous_block_digest).value(:string)
     end
   end
-
+  
   prop :index, Integer
   prop :timestamp, Time
   prop :proof, Integer

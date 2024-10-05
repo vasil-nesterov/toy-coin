@@ -1,4 +1,5 @@
 # typed: false
+
 require "rspec"
 
 describe Block do
