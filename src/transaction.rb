@@ -47,25 +47,6 @@ class Transaction < T::Struct
     sender == "0"
   end
 
-  sig { returns(T::Boolean) }
-  def has_valid_signature?
-    # TODO: return true if coinbase?
-    signature_bytes = signature&.to_bytes # https://sorbet.org/docs/flow-sensitive#limitations-of-flow-sensitivity
-    return false unless signature_bytes
-
-    public_key =
-      if coinbase?
-        recipient
-      else
-        sender
-      end
-
-    public_key = Ed25519::VerifyKey.new(public_key.to_bytes)
-    public_key.verify(signature_bytes, id)
-  rescue Ed25519::VerifyError
-    false 
-  end
-
   sig { params(key: Key).void }
   def sign_with_key(key)
     self.signature = key.sign(id)

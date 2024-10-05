@@ -34,25 +34,6 @@ RSpec.describe Transaction do
     expect(transaction.to_h.keys).to include(*%w[sender recipient value])
   end
 
-  describe '#has_valid_signature?' do
-    it 'returns true when signature is valid' do
-      transaction.signature = key.sign(transaction.id)
-      expect(transaction.has_valid_signature?).to be(true)
-    end
-
-    it 'returns false when signature is nil' do
-      expect(transaction.has_valid_signature?).to be(false)
-    end
-
-    it 'returns false when signature is invalid' do
-      transaction.signature = key
-        .sign(transaction.id)
-        .tap { _1[13] = '0' }
-
-      expect(transaction.has_valid_signature?).to be(false)
-    end
-  end
-
   describe '#sign_with_key' do
     it 'sets the signature' do
       transaction.sign_with_key(key)

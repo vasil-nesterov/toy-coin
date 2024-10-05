@@ -10,7 +10,7 @@ class Mempool
 
   sig { params(transaction: Transaction).returns(T::Boolean) }
   def add_transaction(transaction)
-    if transaction.has_valid_signature?
+    if TransactionValidator.new(transaction).call
       @transactions << transaction
       true
     else
