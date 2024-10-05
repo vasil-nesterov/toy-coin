@@ -1,31 +1,38 @@
 # typed: strict
 
-# TODO: Miner should send new block to Node
 # TODO: Miner shouldn't wipe mempool. Node should remove block.txs from mempool during Node#add_block
+# TODO: Miner doesn't need a private_key. Coinbase tx shouldn't be signed.
+# 
+# Miner's responsibilities
+# - Find the next proof
+# - Build a new block with transactions from mempool
+# - Send new block to Node
+# 
+# Can Miner get everything it needs from Node?
+# - Last block
+# - Complexity
+# - Mempool
 class Miner
   extend T::Sig
 
-  sig { params(blockchain: Blockchain, mempool: Mempool, private_key: Key, node: Node).void }
-  def initialize(blockchain:, mempool:, private_key:, node:)
-    @blockchain = blockchain
-    @mempool = mempool
-    @private_key = private_key
+  sig { params(node: Node, private_key: Key).void }
+  def initialize(node:, private_key:)
     @node = node
+    @private_key = private_key
   end
 
   sig { void }
   def mine_next_block
-    last_block = @blockchain.last_block
-    new_block_proof = ProofOfWork.new(@blockchain.complexity).next_proof(last_block.proof)
+    new_block_proof = ProofOfWork.new(@node.complexity).next_proof(@node.last_block.proof)
 
     add_coinbase_tx
 
     new_block = Block.new(
-      index: last_block.index + 1,
+      index: @node.last_block.index + 1,
       timestamp: Time.now.utc,
       proof: new_block_proof,
-      transactions: @mempool.wipe,
-      previous_block_digest: last_block.digest
+      transactions: @node.mempool.wipe,
+      previous_block_digest: @node.last_block.digest
     )
     
     @node.add_block(new_block)
@@ -40,6 +47,6 @@ class Miner
     )
     tx.sign_with_key(@private_key)
 
-    @mempool.add_transaction(tx)
+    @node.add_transaction_to_mempool(tx)
   end
 end

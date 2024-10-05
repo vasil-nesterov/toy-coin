@@ -18,11 +18,7 @@ end
 node_name = ENV.fetch("NODE_NAME")
 private_key = Key.load_from_file("#{ROOT_DIR}/data/keys/#{node_name}.key")
 
-node = Node.new(
-  node_name: node_name,
-  private_key: private_key,
-  blockchain_storage: blockchain_storage
-)
+node = Node.new(blockchain_storage: blockchain_storage)
 wallet = Wallet.new(node: node, key: private_key)
 
 run_app(
