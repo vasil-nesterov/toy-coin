@@ -1,13 +1,19 @@
-# typed: true
+# typed: strict
+
 require 'json'
 
 class BlockchainStorage
+  extend T::Sig
+
+  sig { returns(String) }
   attr_reader :path_to_file
-  
+
+  sig { params(path_to_file: String).void }
   def initialize(path_to_file)
     @path_to_file = path_to_file
   end
 
+  sig { returns(Blockchain) }
   def load
     data = JSON.parse(File.read(path_to_file))
 
@@ -26,6 +32,7 @@ class BlockchainStorage
   end
 
   # Temporary method; until the network is up and somewhat stable
+  sig { returns(Blockchain) }
   def load_or_init
     if File.exist?(path_to_file)
       load
@@ -40,6 +47,7 @@ class BlockchainStorage
     end
   end
 
+  sig { params(blockchain: Blockchain).void }
   def save(blockchain)
     File.write(
       path_to_file, 

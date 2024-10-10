@@ -10,24 +10,30 @@ NODE_NAME=alice ./bin/start_node
 - [ ] Tx: multiple in, multiple out. Replace BalanceRegistry with UTXO
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
 - [ ] ***Implement consensus
-- [ ] Ensure that app is thread-safe (Consensus, sending coins, mining a block)
 - [ ] Tx: leave some coins as a fee; state it explicitly
 - [ ] Allow to record a name on the blockchain somehow (in tx, or outside)
+
+- [ ] Ensure that there's only one coinbase tx in a block, and ensure the reward is correct (== 100 initially)
 
 - [ ] Tx versioning
 - [ ] Start a 24/7 node
 - [ ] EVM?
 - [ ] Web::PrivateInterface, Web::PublicInterface: ractors, not threads
 
-## Refactorings
-- [ ] Get rid of Dry validation.
+- [ ] Tx.amount should be integer
+- [ ] Spec for BlockValidator
+- [ ] Ensure that app is thread-safe (Consensus, sending coins, mining a block)
 
 # Changelog
+
+## Oct 10, 2024
+- [x] Typed: strict everywhere, except Roda apps
 
 ## Oct 5, 2024
 - [x] Ensure that an address always has a positive balance
 - [x] Add private route: /balance
 - [x] Add private route: /send_coins
+- [x] Refactor validations.
 
 ## Oct 4, 2024
 - [x] Split web interface into public and private ones running on different ports

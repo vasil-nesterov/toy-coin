@@ -1,5 +1,5 @@
 # typed: strict
-# 
+
 require 'forwardable'
 
 class Blockchain

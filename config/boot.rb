@@ -1,8 +1,10 @@
-# typed: true
+# typed: strict
+
 require 'dotenv'
+require 'sorbet-runtime'
 require 'zeitwerk'
 
-ROOT_DIR = File.expand_path('../..', __FILE__)
+ROOT_DIR = T.let(File.expand_path('../..', __FILE__), String)
 
 Dir.glob("#{ROOT_DIR}/src/core_extensions/*.rb").each do |file|
   require(file)
