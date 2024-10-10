@@ -2,7 +2,7 @@
 
 RSpec.describe Output do
   let(:payload) { {
-    'destination_pub' => 'abc123',
+    'dest_pub' => 'abc123',
     'amount' => 100
   } }
 
@@ -11,7 +11,7 @@ RSpec.describe Output do
       output = Output.from_hash(payload)
 
       expect(output).to be_a(Output)
-      expect(output.destination_pub).to eq('abc123')
+      expect(output.dest_pub).to eq('abc123')
       expect(output.amount).to eq(100)
     end
   end

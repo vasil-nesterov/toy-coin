@@ -4,14 +4,14 @@ require 'sorbet-runtime'
 
 class Input < T::Struct
   extend T::Sig
-  prop :tx_id, String
-  prop :output_index, Integer
+  prop :txid, String
+  prop :out_i, Integer
 
   sig { params(payload: T::Hash[String, T.untyped]).returns(Input) }
   def self.from_hash(payload)
     new(
-      tx_id: payload['tx_id'], 
-      output_index: payload['output_index']
+      txid: payload['txid'], 
+      out_i: payload['out_i']
     )
   end
 end
