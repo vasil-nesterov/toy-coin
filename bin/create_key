@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+require 'ed25519'
+require_relative '../config/boot'
+
+key_name = ARGV[0]
+if key_name.nil?
+  puts "Usage: #{$PROGRAM_NAME} <key_name>"
+  exit 1
+end
+
+path = File.join(ROOT_DIR, 'data', 'keys', "#{key_name}.key")
+if File.exist?(path)
+  puts "#{path}: File already exists\n" 
+  exit 1
+end
+
+key = Ed25519::SigningKey.generate
+private_hex = key.to_bytes.to_hex
+public_hex = key.verify_key.to_bytes.to_hex
+
+contents = "PRIVATE=#{private_hex}\n PUBLIC=#{public_hex}"
+puts contents
+File.write(path, contents)
