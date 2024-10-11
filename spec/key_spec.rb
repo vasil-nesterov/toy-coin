@@ -12,13 +12,13 @@ RSpec.describe Key do
 
     describe '#secret_hex' do
       it 'returns the secret hex' do
-        expect(key.secret_hex).to eq('870fb14056d582ad520033376230ab44f1da2bce678e4ea1a97fc9fd39f7cb89')
+        expect(key.secret_hex).to eq('6205705ab4ea755c9ffa4dc5ba8a43b303f7bf362672b5e81f9647f7907462b9')
       end
     end
 
     describe '#public_hex' do
       it 'returns the public hex' do
-        expect(key.public_hex).to eq('927048e09be0cd155c2e21a6dbcf5e9707e71b521d989ffae65bce5277057737')
+        expect(key.public_hex).to eq('d490db58ad194931540e8bb7f41d5d72dcbbb1fb54a5c459450eb547561ff3ef')
       end
     end
   end

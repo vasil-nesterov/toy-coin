@@ -10,7 +10,6 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     nio4r (2.7.3)
-    parslet (2.0.0)
     puma (6.4.3)
       nio4r (~> 2.0)
     rack (3.1.7)
@@ -41,8 +40,6 @@ GEM
       sorbet-static (= 0.5.11600)
     sorbet-runtime (0.5.11600)
     sorbet-static (0.5.11600-universal-darwin)
-    toml (0.3.0)
-      parslet (>= 1.8.0, < 3.0.0)
     webrick (1.8.2)
     zeitwerk (2.6.18)
 
@@ -60,7 +57,6 @@ DEPENDENCIES
   rspec (~> 3.13)
   sorbet (~> 0.5.11600)
   sorbet-runtime (~> 0.5.11600)
-  toml (~> 0.3.0)
   zeitwerk (~> 2.6)
 
 BUNDLED WITH

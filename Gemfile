@@ -20,5 +20,3 @@ group :development do
   gem "rackup", "~> 2.1"
   gem "rerun", "~> 0.14"
 end
-
-gem "toml", "~> 0.3.0"

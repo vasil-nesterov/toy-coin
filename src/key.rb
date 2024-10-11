@@ -2,7 +2,6 @@
 
 require 'ed25519'
 require 'sorbet-runtime'
-require 'toml'
 
 class Key
   extend T::Sig
@@ -12,8 +11,7 @@ class Key
 
     sig { params(path: String).returns(Key) }
     def load_from_file(path)
-      hex = TOML.load_file(path).fetch('SECRET')
-
+      hex = KvStorage.new(path).fetch('SECRET')
       new(hex)
     end
   end
