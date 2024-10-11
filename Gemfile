@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "sorbet", "~> 0.5"
-gem "sorbet-runtime", "~> 0.5"
+gem "sorbet", "~> 0.5.11600"
+gem "sorbet-runtime", "~> 0.5.11600"
 
 gem "ed25519", "~> 1.3"
 gem "blake3-rb", "~> 1.5"
@@ -20,3 +20,5 @@ group :development do
   gem "rackup", "~> 2.1"
   gem "rerun", "~> 0.14"
 end
+
+gem "toml", "~> 0.3.0"

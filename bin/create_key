@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'ed25519'
+require 'toml'
 require_relative '../config/boot'
 
 key_name = ARGV[0]
@@ -16,9 +17,9 @@ if File.exist?(path)
 end
 
 key = Ed25519::SigningKey.generate
-private_hex = key.to_bytes.to_hex
+secret_hex = key.to_bytes.to_hex
 public_hex = key.verify_key.to_bytes.to_hex
 
-contents = "PRIVATE=#{private_hex}\n PUBLIC=#{public_hex}"
+contents = TOML::Generator.new('SECRET' => secret_hex, 'PUBLIC' => public_hex).body
 puts contents
 File.write(path, contents)
