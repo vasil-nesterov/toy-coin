@@ -1,9 +1,9 @@
 # typed: false
 
-RSpec.describe KvStorage do
+RSpec.describe KVStorage do
   context 'with alice_test.key' do
     let(:storage_path) { 'spec/fixtures/alice_test.key' }
-    let(:storage) { KvStorage.new(storage_path) }
+    let(:storage) { KVStorage.new(storage_path) }
 
     describe '#fetch' do
       it 'fetches the correct value for a given key' do
@@ -15,7 +15,7 @@ RSpec.describe KvStorage do
 
   context 'with tmp key' do
     let(:storage_path) { 'tmp/test.key' }
-    let(:storage) { KvStorage.new(storage_path) }
+    let(:storage) { KVStorage.new(storage_path) }
 
     describe '#write' do
       it 'writes the correct value for a given key' do

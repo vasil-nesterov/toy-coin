@@ -11,7 +11,7 @@ class Key
 
     sig { params(path: String).returns(Key) }
     def load_from_file(path)
-      hex = KvStorage.new(path).fetch('SECRET')
+      hex = KVStorage.new(path).fetch('SECRET')
       new(hex)
     end
   end

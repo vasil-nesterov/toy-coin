@@ -1,7 +1,6 @@
 # typed: strict
 
-# TODO: Rename to KVStorage
-class KvStorage
+class KVStorage
   extend T::Sig
 
   sig { params(path: String).void }
@@ -9,20 +8,25 @@ class KvStorage
     @path = path
   end
 
-  # TODO: refactor
+  # TODO: keep hash in memory
   sig { params(key: String).returns(String) }
   def fetch(key)
-    File.read(@path).split("\n").each_with_object({}) do |line, hash|
-      k, v = line.split('=')
-      hash[k] = v
-    end.fetch(key)
+    doc = File.read(@path)
+
+    hash = doc
+      .split("\n")
+      .map { _1.split('=') }
+      .to_h
+    hash.fetch(key)
   end
 
   sig { params(hash: T::Hash[String, String]).void }
   def write(hash)
-    hash
-      .map { |k, v| "#{k}=#{v}" }
+    doc = hash
+      .map { |key, value| "#{key}=#{value}" }
       .join("\n")
-      .then { |content| File.write(@path, content) }
+
+    puts doc
+    File.write(@path, doc)
   end
 end

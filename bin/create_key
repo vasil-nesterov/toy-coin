@@ -19,5 +19,5 @@ key = Ed25519::SigningKey.generate
 secret_hex = key.to_bytes.to_hex
 public_hex = key.verify_key.to_bytes.to_hex
 
-storage = KvStorage.new(path)
+storage = KVStorage.new(path)
 storage.write({ 'SECRET' => secret_hex, 'PUBLIC' => public_hex })
