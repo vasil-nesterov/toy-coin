@@ -15,17 +15,6 @@ module Web
       r.get "state" do
         { status: "success", state: node.to_h }
       end
-
-      r.post "transactions" do
-        raw_transaction = JSON.parse(r.body.read)
-        transaction = Transaction.from_h(raw_transaction)
-
-        if node.add_transaction_to_mempool(transaction)
-          { status: "success", state: node.to_h }
-        else
-          { status: "error", error: validation_result.errors.to_h.to_s }
-        end
-      end
     end
   end
 end

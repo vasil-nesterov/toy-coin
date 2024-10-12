@@ -12,17 +12,16 @@ class Node
   sig { params(blockchain_storage: BlockchainStorage).void }
   def initialize(blockchain_storage:)
     @blockchain_storage = blockchain_storage
-    @blockchain = T.let(@blockchain_storage.load_or_init, Blockchain)
+    @blockchain = T.let(@blockchain_storage.load, Blockchain)
     @mempool = T.let(Mempool.new, Mempool)
-
-    @balance_registry = T.let(@blockchain.balance_registry.deep_clone, BalanceRegistry)
+    # TODO: @utxo_pool = T.let(UTXOPool.new, UTXOPool)
   end
 
   sig { returns(T::Hash[String, T.untyped]) }
   def to_h
     {
-      mempool: @mempool.to_h,
-      blockchain: @blockchain.to_h.tap { |h| h[:blocks].reverse! }
+      "mempool" => @mempool.serialize,
+      "blockchain" => @blockchain.serialize.reverse
     }
   end
 

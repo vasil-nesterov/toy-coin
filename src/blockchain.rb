@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'forwardable'
-
 class Blockchain
   InvalidBlockAddedError = Class.new(StandardError)
 
@@ -10,9 +8,13 @@ class Blockchain
   sig { void }
   def initialize
     @blocks = T.let([], T::Array[Block])
-    @utxo_pool = T.let(UtxoPool.new, UtxoPool)
-    
+    # @utxo_pool = T.let(UTXOPool.new, UTXOPool)
     @complexity = T.let(nil, T.nilable(Integer))
+  end
+
+  sig { returns(Integer) }
+  def height
+    @blocks.count
   end
   
   # TODO: Move to BlockchainSerializer
