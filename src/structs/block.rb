@@ -14,7 +14,7 @@ class Block < T::Struct
 
   # TODO: Rename to chain_updates
   # TODO: Convert to a proper struct
-  prop :chain_tweaks, T::Hash[Symbol, T.untyped] 
+  prop :chain_tweaks, T.nilable(T::Hash[Symbol, T.untyped])
 
   sig { params(payload: T::Hash[String, T.untyped]).returns(Block) }
   def self.from_hash(payload)

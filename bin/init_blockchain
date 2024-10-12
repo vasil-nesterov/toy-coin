@@ -13,25 +13,15 @@ if File.exist?(BLOCKCHAIN_FILE_PATH)
   exit 1
 end
 
-complexity = ARGV[0].to_i
+chain_tweaks = {
+  block_version: Block::CURRENT_VERSION,
+  complexity: ARGV[0].to_i
+}
+
 blockchain = Blockchain.new
-block = Block.new(
-  version: Block::CURRENT_VERSION,
-  prev_dgst: '',
-  nonce: 0,
-  chain_tweaks: { 
-    block_version: Block::CURRENT_VERSION, 
-    complexity: complexity 
-  },
-  sig_txs: []
-)
+miner = Miner.new(blockchain: blockchain, mempool: Mempool.new)
+genesis_block = miner.next_block(chain_tweaks:)
 
-loop do
-  block.nonce += 1
-  hex = BlockDigest.new(block).hex
+blockchain.add_block(genesis_block)
 
-  break if hex.start_with?("0" * complexity)
-end
-
-blockchain.add_block(block)
 BlockchainStorage.new(BLOCKCHAIN_FILE_PATH).save(blockchain)
