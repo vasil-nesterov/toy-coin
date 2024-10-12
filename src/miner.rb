@@ -65,8 +65,8 @@ class Miner
       dgst: '',
       at: Time.now.utc,
       ins: [],
-      in_sigs: [],
-      outs: [out]
+      outs: [out],
+      wits: []
     )
   end
 

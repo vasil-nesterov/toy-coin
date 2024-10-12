@@ -17,7 +17,11 @@ class BlockRuleSet
 
   sig { returns(T::Boolean) }
   def satisfied?
-    rules = [block_digest_satisfies_complexity, block_has_single_coinbase_tx]
+    rules = [
+      block_digest_satisfies_complexity, 
+      block_has_single_coinbase_tx,
+      txs_rules_satisfied
+    ]
 
     if @previous_block
       rules << BlockReferencesPreviousBlock.new(block: @block, previous_block: @previous_block).satisfied?
@@ -42,12 +46,24 @@ class BlockRuleSet
 
   sig { returns(T::Boolean) }
   def block_has_single_coinbase_tx
-    number_of_coinbase_txs = @block.sig_txs.select { _1.tx.coinbase? }.count
-
+    number_of_coinbase_txs = @block.txs.select { _1.coinbase? }.count
+  
     if number_of_coinbase_txs == 1
       true
     else
       @errors << "Block has #{number_of_coinbase_txs} coinbase txs, expected 1"
+      false
+    end
+  end
+
+  sig { returns(T::Boolean) }
+  def txs_rules_satisfied
+    txs_rule_sets = @block.txs.map { TxRuleSet.new(_1) }
+
+    if txs_rule_sets.all?(&:satisfied?)
+      true
+    else
+      # TODO: errors
       false
     end
   end

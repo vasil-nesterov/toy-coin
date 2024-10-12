@@ -12,7 +12,7 @@ class Tx < T::Struct
   prop :ins, T::Array[In]
   prop :outs, T::Array[Out]
 
-  prop :in_sigs, T::Array[String]
+  prop :wits, T::Array[[String, String]] # Pub key, signature. TODO: Rework into a better struct
 
   sig { params(payload: T::Hash[String, T.untyped]).returns(Tx) }
   def self.from_hash(payload)
@@ -21,7 +21,7 @@ class Tx < T::Struct
       at: Time.parse(payload['at']),
       ins: payload['ins'].map { |input| In.from_hash(input) },
       outs: payload['outs'].map { |output| Out.from_hash(output) },
-      in_sigs: payload['in_sigs']
+      wits: payload['wits']
     )
   end
 
@@ -32,7 +32,7 @@ class Tx < T::Struct
       at: at.iso8601,
       ins: ins.map(&:to_hash),
       outs: outs.map(&:to_hash),
-      in_sigs: in_sigs
+      wits: wits
     }
   end
   
