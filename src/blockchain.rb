@@ -34,8 +34,26 @@ class Blockchain
     end
   end
 
+  sig { returns(Integer) }
+  def current_complexity
+    @complexity
+  end
+
+  sig { returns(String) }
+  def last_block_dgst
+    if @blocks.empty?
+      ''
+    else
+      last_block = T.must(@blocks.last)
+      BlockDigest.new(last_block).hex
+    end
+  end
+
+  private
+
   sig { params(block: Block).void }
   def read_complexity_from_block(block)
-    @complexity = block.chain_tweaks[:complexity]
+    # TODO: Refactor
+    @complexity = block.chain_tweaks&.fetch(:complexity, nil)
   end
 end
