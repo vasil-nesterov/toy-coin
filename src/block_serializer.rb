@@ -17,7 +17,7 @@ class BlockSerializer
       prev_dgst: @block.prev_dgst,
       nonce: @block.nonce,
       chain_tweaks: @block.chain_tweaks,
-      sig_txs: @block.sig_txs.map(&:to_hash)
+      txs: @block.txs.map(&:to_hash)
     }.compact
   end
 
@@ -29,7 +29,7 @@ class BlockSerializer
       prev_dgst: @block.prev_dgst,
       nonce: @block.nonce,
       chain_tweaks: @block.chain_tweaks,
-      sig_txs: @block.sig_txs.map(&:to_hash)
+      txs: @block.txs.map(&:to_hash)
     }.compact
   end
 end

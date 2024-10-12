@@ -10,7 +10,7 @@ class Block < T::Struct
   prop :version, Integer
   prop :prev_dgst, String
   prop :nonce, Integer
-  prop :sig_txs, T::Array[SigTx]
+  prop :txs, T::Array[Tx]
 
   # TODO: Rename to chain_updates
   # TODO: Convert to a proper struct
@@ -23,7 +23,7 @@ class Block < T::Struct
       prev_dgst: payload['prev_dgst'],
       nonce: payload['nonce'],
       chain_tweaks: payload['chain_tweaks'],
-      sig_txs: payload['sig_txs'].map { |sig_tx| SigTx.from_hash(sig_tx) }
+      txs: payload['txs'].map { |tx| Tx.from_hash(tx) }
     )
   end
 end

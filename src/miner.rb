@@ -29,7 +29,7 @@ class Miner
       version: Block::CURRENT_VERSION,
       prev_dgst: @blockchain.last_block_dgst,
       nonce: 0,
-      sig_txs: [coinbase_tx]
+      txs: [coinbase_tx]
     )
 
     # TODO: Refactor
@@ -54,7 +54,7 @@ class Miner
     [block, @coinbase_signing_key]
   end
 
-  sig { returns(SigTx) }
+  sig { returns(Tx) }
   def coinbase_tx
     out = Out.new(
       dest_pub: @coinbase_signing_key.public_hex,
@@ -65,12 +65,8 @@ class Miner
       dgst: '',
       at: Time.now.utc,
       ins: [],
+      in_sigs: [],
       outs: [out]
-    )
-
-    SigTx.new(
-      tx:,
-      in_sigs: []
     )
   end
 
