@@ -45,11 +45,12 @@ class Blockchain
 
   sig { returns(String) }
   def last_block_dgst
-    if @blocks.empty?
-      ''
-    else
-      last_block = T.must(@blocks.last)
+    last_block = @blocks.last
+    
+    if last_block
       BlockDigest.new(last_block).hex
+    else
+      ''
     end
   end
 
