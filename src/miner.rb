@@ -1,33 +1,26 @@
 # typed: strict
-
-# TODO: Miner shouldn't wipe mempool. Node should remove block.txs from mempool during Node#add_block
-# TODO: Miner doesn't need a private_key. Coinbase tx shouldn't be signed.
-# 
-# Miner's responsibilities
-# - Find the next proof
-# - Build a new block with transactions from mempool
-# - Send new block to Node
-# 
-# Can Miner get everything it needs from Node?
-# - Last block
-# - Complexity
-# - Mempool
+ 
+# Miner's responsibilities:
+# - Build the next block
+# - Return [block, private-key-for-coinbase-tx-output]
 class Miner
   extend T::Sig
 
-  sig { params(blockchain: Blockchain, mempool: Mempool, enforce_complexity: T.nilable(Integer)).void }
-  def initialize(blockchain:, mempool:, enforce_complexity: nil)
-    @blockchain = blockchain
-    @mempool = mempool
-    
-    @coinbase_signing_key = T.let(Key.generate, Key)
+  sig { params(complexity: Integer, last_block_dgst: String).void }
+  def initialize(complexity:, last_block_dgst:)
+    # TODO: Fetch N high-priority txs from mempool
+    @complexity = complexity
+    @last_block_dgst = last_block_dgst
+
+    @coinbase_private_key = T.let(Key.generate, Key)
   end
 
   sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns([Block, Key]) }
   def next_block(chain_tweaks: nil)
+    # TODO: Add N txs to the block
     block = Block.new(
-      version: Block::CURRENT_VERSION,
-      prev_dgst: @blockchain.last_block_dgst,
+      ver: Block::CURRENT_VERSION,
+      prev_dgst: @last_block_dgst,
       nonce: 0,
       txs: [coinbase_tx]
     )
@@ -37,31 +30,26 @@ class Miner
       block.chain_tweaks = chain_tweaks
     end
 
-    complexity = 
-      if chain_tweaks && chain_tweaks[:complexity]
-        chain_tweaks[:complexity]
-      else
-        @blockchain.current_complexity
-      end
-
     loop do
       block.nonce += 1
       hex = BlockDigest.new(block).hex
     
-      break if hex.start_with?("0" * complexity)
+      break if hex.start_with?("0" * @complexity)
     end
 
-    [block, @coinbase_signing_key]
+    [block, @coinbase_private_key]
   end
+
+  private
 
   sig { returns(Tx) }
   def coinbase_tx
     out = Out.new(
-      dest_pub: @coinbase_signing_key.public_hex,
+      dest_pub: @coinbase_private_key.public_hex,
       millis: 1_000 # TODO: A better logic
     )
 
-    tx = Tx.new(
+    Tx.new(
       dgst: '',
       at: Time.now.utc,
       ins: [],
@@ -69,33 +57,4 @@ class Miner
       wits: []
     )
   end
-
-  # sig { void }
-  # def mine_next_block
-  #   new_block_proof = ProofOfWork.new(@node.complexity).next_proof(@node.last_block.proof)
-
-  #   add_coinbase_tx
-
-  #   new_block = Block.new(
-  #     index: @node.last_block.index + 1,
-  #     timestamp: Time.now.utc,
-  #     proof: new_block_proof,
-  #     transactions: @node.mempool.wipe,
-  #     previous_block_digest: @node.last_block.digest
-  #   )
-    
-  #   @node.add_block(new_block)
-  # end
-
-  # sig { void }
-  # def add_coinbase_tx
-  #   tx = Transaction.new(
-  #     sender: "0",
-  #     recipient: @private_key.address,
-  #     value: 1.0
-  #   )
-  #   tx.sign_with_key(@private_key)
-
-  #   @node.add_transaction_to_mempool(tx)
-  # end
 end

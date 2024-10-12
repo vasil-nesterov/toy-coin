@@ -11,14 +11,13 @@ class Wallet
   MINER_IDLE = T.let("idle".freeze, String)
   MINER_RUNNING = T.let("running".freeze, String)
 
-  sig { params(node: Node, key: Key).void }
-  def initialize(node:, key:)
+  sig { params(node: Node).void }
+  def initialize(node:)
     @node = node
-    @key = key
-
     @miner = T.let(nil, T.nilable(Thread))
   end
 
+  # TODO: FIX
   sig { params(recipient_address: String, amount: Float).void }
   def send_coins(recipient_address, amount)
     tx = Transaction.new(
@@ -36,30 +35,27 @@ class Wallet
     raise "Miner is already running" if miner_status == MINER_RUNNING
 
     @miner = Thread.new do
-      Miner.new(node: @node, private_key: @key).mine_next_block
-    end
-  end
+      # TODO: Save the key to a file. Later on, add Keychain abstraction over a group of private keys
+      next_block, _coinbase_private_key = Miner.new(
+        complexity: @node.blockchain_complexity,
+        last_block_dgst: @node.last_block_dgst
+      ).next_block
 
-  sig { returns(Float) }
-  def balance
-    @node.balance(@key.address)
+      @node.add_block(next_block)
+    end
   end
 
   sig { returns(T::Hash[String, T.untyped]) } 
   def to_h
     {
-      address: address,
-      balance: balance,
+      # address: address,
+      # balance: balance,
       miner_status: miner_status
     }
   end
 
   private
 
-  sig { returns(String) }
-  def address
-    @key.address
-  end
 
   sig { returns(String) }
   def miner_status

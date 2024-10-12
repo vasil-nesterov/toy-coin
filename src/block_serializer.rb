@@ -12,7 +12,7 @@ class BlockSerializer
   sig { returns(T::Hash[String, T.untyped]) }
   def full_hash
     {
-      ver: @block.version,
+      ver: @block.ver,
       dgst: BlockDigest.new(@block).hex,
       prev_dgst: @block.prev_dgst,
       nonce: @block.nonce,
@@ -25,7 +25,7 @@ class BlockSerializer
   sig { returns(T::Hash[Symbol, T.untyped]) }
   def header_hash
     {
-      ver: @block.version,
+      ver: @block.ver,
       prev_dgst: @block.prev_dgst,
       nonce: @block.nonce,
       chain_tweaks: @block.chain_tweaks,

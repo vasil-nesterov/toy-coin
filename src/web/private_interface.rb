@@ -1,16 +1,18 @@
-# typed: false
+# typed: strict
 
 require "roda"
 
 module Web
   class PrivateInterface < Roda
+    extend T::Sig
+    
     plugin :json
     plugin :error_handler do |e|
       { status: "error", error: e.message }
     end
 
     route do |r|
-      wallet = env['wallet'] or raise "Wallet not injected"
+      wallet = r.env['wallet'] or raise "Wallet not injected"
 
       r.get "info" do
         { status: "success", wallet: wallet.to_h }

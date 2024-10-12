@@ -3,6 +3,7 @@
 require 'ed25519'
 require 'sorbet-runtime'
 
+# TODO: Rename to PrivateKey
 class Key
   extend T::Sig
 

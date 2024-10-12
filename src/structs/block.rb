@@ -7,7 +7,8 @@ class Block < T::Struct
   
   extend T::Sig
 
-  prop :version, Integer
+  # TODO: prop :at, Time
+  prop :ver, Integer
   prop :prev_dgst, String
   prop :nonce, Integer
   prop :txs, T::Array[Tx]
@@ -19,10 +20,10 @@ class Block < T::Struct
   sig { params(payload: T::Hash[String, T.untyped]).returns(Block) }
   def self.from_hash(payload)
     new(
-      version: payload['version'],
+      ver: payload['ver'],
       prev_dgst: payload['prev_dgst'],
       nonce: payload['nonce'],
-      chain_tweaks: payload['chain_tweaks'],
+      chain_tweaks: payload['chain_tweaks']&.transform_keys(&:to_sym),
       txs: payload['txs'].map { |tx| Tx.from_hash(tx) }
     )
   end
