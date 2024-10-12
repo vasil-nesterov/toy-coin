@@ -1,34 +1,54 @@
-{
-  "complexity": 1,
-  "blocks": [
-    {
-      "index": 0,
-      "timestamp": "2024-09-29T11:29:34Z",
-      "proof": 0,
-      "transactions": [
-        {
-          "sender": "0",
-          "recipient": "ce452613733d00ef8486c475c85f0d8709053802b02e04b8d03a1fbe98506f24",
-          "value": 1.0
-        }
-      ],
-      "previous_block_digest": "",
-      "digest": "d13b908bd834ccbcbac0936ee5c077fc80115cbc7cfcf783cea496835ef20e34"
+[
+  {
+    "ver": 2,
+    "dgst": "000b62803f08a0961f3c5ba0ad241f0378ed45fb119754c98f5b30fa92ade834",
+    "prev_dgst": "",
+    "nonce": 364,
+    "chain_tweaks": {
+      "block_version": 2,
+      "complexity": 3
     },
-    {
-      "index": 1,
-      "timestamp": "2024-09-29T11:30:31Z",
-      "proof": 15807798187211696485981571950331769837281891951555582552193146759715811261322,
-      "transactions": [
-        {
-          "sender": "ce452613733d00ef8486c475c85f0d8709053802b02e04b8d03a1fbe98506f24",
-          "recipient": "f88ccd9d47b17f8d44429fddd7e01a0876240151568cda9b1c91b4832cb15bc6",
-          "value": 0.5,
-          "signature": "bc9a57771fd81496444236212f51a68d690268cd6403f8531b78882f2dff0c317a7f79c6abc9c0a5b19caa54a0aff2469974501e26c397cc0da83935fcd82c03"
-        }
-      ],
-      "previous_block_digest": "d13b908bd834ccbcbac0936ee5c077fc80115cbc7cfcf783cea496835ef20e34",
-      "digest": "fd84b125148d02d666684c86bbf357f986f0e426c8c785bea201057efee3821b"
-    }
-  ]
-}
+    "txs": [
+      {
+        "dgst": "",
+        "at": "2024-10-12T15:54:12Z",
+        "ins": [
+
+        ],
+        "outs": [
+          {
+            "dest_pub": "55fd27e190b122b47f0e5a7873e8c1e615085f246a99b930a840131d6e955e7e",
+            "millis": 1000
+          }
+        ],
+        "wits": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "ver": 2,
+    "dgst": "000642545bb12507b9c99f2e85fe6b6ff8d3aa1e39efa68fdcf2fa89dfe509d6",
+    "prev_dgst": "000b62803f08a0961f3c5ba0ad241f0378ed45fb119754c98f5b30fa92ade834",
+    "nonce": 1029,
+    "txs": [
+      {
+        "dgst": "",
+        "at": "2024-10-12T15:54:12Z",
+        "ins": [
+
+        ],
+        "outs": [
+          {
+            "dest_pub": "bd51904d49166779ca7e5da21adf7bc6f299f8910ec433cb73494afcdf957b0f",
+            "millis": 1000
+          }
+        ],
+        "wits": [
+
+        ]
+      }
+    ]
+  }
+]
