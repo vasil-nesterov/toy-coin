@@ -16,19 +16,32 @@ class BlockRuleSet
 
   sig { returns(T::Boolean) }
   def satisfied?
-    block_digest_satisfies_complexity?
+    block_digest_satisfies_complexity &&
+      block_has_single_coinbase_tx
   end
 
   private
 
   sig { returns(T::Boolean) }
-  def block_digest_satisfies_complexity?
+  def block_digest_satisfies_complexity
     hex = BlockDigest.new(@block).hex
 
     if hex.start_with?("0" * @complexity)
       true
     else
       @errors << "Block digest does not satisfy complexity"
+      false
+    end
+  end
+
+  sig { returns(T::Boolean) }
+  def block_has_single_coinbase_tx
+    number_of_coinbase_txs = @block.sig_txs.select { _1.tx.coinbase? }.count
+
+    if number_of_coinbase_txs == 1
+      true
+    else
+      @errors << "Block has #{number_of_coinbase_txs} coinbase txs, expected 1"
       false
     end
   end

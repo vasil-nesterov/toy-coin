@@ -23,13 +23,13 @@ class Miner
     @coinbase_signing_key = T.let(Key.generate, Key)
   end
 
-  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns(Block) }
+  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns([Block, Key]) }
   def next_block(chain_tweaks: nil)
     block = Block.new(
       version: Block::CURRENT_VERSION,
       prev_dgst: @blockchain.last_block_dgst,
       nonce: 0,
-      sig_txs: [] # TODO: Add coinbase tx
+      sig_txs: [coinbase_tx]
     )
 
     # TODO: Refactor
@@ -51,28 +51,28 @@ class Miner
       break if hex.start_with?("0" * complexity)
     end
 
-    block
+    [block, @coinbase_signing_key]
   end
 
-  # sig { returns(SigTx) }
-  # def coinbase_tx
-  #   out = Out.new(
-  #     dest_pub: # TODO: generate a new key and return it alongside block
-  #     millis: 1_000 # TODO: A better logic
-  #   )
+  sig { returns(SigTx) }
+  def coinbase_tx
+    out = Out.new(
+      dest_pub: @coinbase_signing_key.public_hex,
+      millis: 1_000 # TODO: A better logic
+    )
 
-  #   tx = Tx.new(
-  #     dgst: '',
-  #     at: Time.now.utc,
-  #     ins: [],
-  #     outs: [out]
-  #   )
+    tx = Tx.new(
+      dgst: '',
+      at: Time.now.utc,
+      ins: [],
+      outs: [out]
+    )
 
-  #   SigTx.new(
-  #     tx:, 
-  #     in_sigs: []
-  #   )
-  # end
+    SigTx.new(
+      tx:,
+      in_sigs: []
+    )
+  end
 
   # sig { void }
   # def mine_next_block

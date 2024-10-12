@@ -14,6 +14,11 @@ class Key
       hex = KVStorage.new(path).fetch('SECRET')
       new(hex)
     end
+
+    sig { returns(Key) }
+    def generate
+      new(Ed25519::SigningKey.generate.to_bytes.to_hex)
+    end
   end
 
   sig { params(secret_hex: String).void }

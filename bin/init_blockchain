@@ -20,7 +20,8 @@ chain_tweaks = {
 
 blockchain = Blockchain.new
 miner = Miner.new(blockchain: blockchain, mempool: Mempool.new)
-genesis_block = miner.next_block(chain_tweaks:)
+# TODO: Save coinbase signing key somewhere
+genesis_block, coinbase_signing_key = miner.next_block(chain_tweaks:)
 
 blockchain.add_block(genesis_block)
 
