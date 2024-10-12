@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 
 require "roda"
 
@@ -10,7 +10,7 @@ module Web
     end
 
     route do |r|
-      node = env['node'] or raise "Node not injected"
+      node = r.env['node'] or raise "Node not injected"
 
       r.get "state" do
         { status: "success", state: node.to_h }
