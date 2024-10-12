@@ -10,8 +10,11 @@ class Block < T::Struct
   prop :version, Integer
   prop :prev_dgst, String
   prop :nonce, Integer
-  prop :chain_tweaks, T.nilable(T::Hash[String, T.untyped]) # TODO: Rename to chain_updates
   prop :sig_txs, T::Array[SigTx]
+
+  # TODO: Rename to chain_updates
+  # TODO: Convert to a proper struct
+  prop :chain_tweaks, T::Hash[Symbol, T.untyped] 
 
   sig { params(payload: T::Hash[String, T.untyped]).returns(Block) }
   def self.from_hash(payload)

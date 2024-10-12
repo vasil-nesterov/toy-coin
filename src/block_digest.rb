@@ -17,9 +17,9 @@ class BlockDigest
 
   private
 
-  sig { returns(T::Hash[String, T.untyped]) }
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def block_header
-    BlockSerializer.new(@block).header_hash.slice(*%w[
+    BlockSerializer.new(@block).header_hash.slice(*%i[
       ver
       prev_dgst
       nonce

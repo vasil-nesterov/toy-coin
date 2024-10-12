@@ -22,7 +22,7 @@ class BlockSerializer
   end
 
   # TODO: put digest of sig_txs in header, not the whole payload
-  sig { returns(T::Hash[String, T.untyped]) }
+  sig { returns(T::Hash[Symbol, T.untyped]) }
   def header_hash
     {
       ver: @block.version,

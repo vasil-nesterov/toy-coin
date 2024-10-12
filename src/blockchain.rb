@@ -11,6 +11,8 @@ class Blockchain
   def initialize
     @blocks = T.let([], T::Array[Block])
     @utxo_pool = T.let(UtxoPool.new, UtxoPool)
+    
+    @complexity = T.let(nil, T.nilable(Integer))
   end
   
   # TODO: Move to BlockchainSerializer
@@ -21,13 +23,19 @@ class Blockchain
 
   sig { params(next_block: Block).void }
   def add_block(next_block)
-    @blocks << next_block
+    # The first block must define .chain_tweaks.complexity
+    read_complexity_from_block(next_block) if @blocks.empty?
 
-    # if BlockValidator.new(next_block, @blocks.last).call
-    #   @blocks << next_block
-    #   @utxo_pool.process_block(next_block)
-    # else
-    #   raise InvalidBlockAddedError, "Block #{next_block.to_hash} is invalid"
-    # end
+    brs = BlockRuleSet.new(next_block, complexity: T.must(@complexity))
+    if brs.satisfied?
+      @blocks << next_block
+    else
+      raise InvalidBlockAddedError, "Block is invalid: #{brs.errors.join("\n")}"
+    end
+  end
+
+  sig { params(block: Block).void }
+  def read_complexity_from_block(block)
+    @complexity = block.chain_tweaks[:complexity]
   end
 end

@@ -20,12 +20,18 @@ block = Block.new(
   prev_dgst: '',
   nonce: 0,
   chain_tweaks: { 
-    "block_version" => Block::CURRENT_VERSION, 
-    "complexity" => complexity 
+    block_version: Block::CURRENT_VERSION, 
+    complexity: complexity 
   },
   sig_txs: []
 )
 
-blockchain.add_block(block)
+loop do
+  block.nonce += 1
+  hex = BlockDigest.new(block).hex
 
+  break if hex.start_with?("0" * complexity)
+end
+
+blockchain.add_block(block)
 BlockchainStorage.new(BLOCKCHAIN_FILE_PATH).save(blockchain)
