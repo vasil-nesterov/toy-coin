@@ -1,33 +1,27 @@
 # Howto
 
+### Init the chain
+```
+bin/init_blockchain 6
+```
+
 ### Start the node
 ```
-bundle exec
-NODE_NAME=alice ./bin/start_node
+NODE_NAME=alice bin/start_node
 ```
 
-# TODO
-- [ ] Tx: multiple in, multiple out. Replace BalanceRegistry with UTXO
-- [ ] Transaction: check against UTXO when adding to mempool & blockchain
-- [ ] ***Implement consensus
-- [ ] Tx: leave some coins as a fee; state it explicitly
-- [ ] Allow to record a name on the blockchain somehow (in tx, or outside)
-
-- [ ] Ensure that there's only one coinbase tx in a block, and ensure the reward is correct (== 100 initially)
-
-- [ ] Tx versioning
-- [ ] Start a 24/7 node
-- [ ] EVM?
-- [ ] Web::PrivateInterface, Web::PublicInterface: ractors, not threads
-
-- [ ] Tx.amount should be integer
-- [ ] Spec for BlockValidator
-- [ ] Ensure that app is thread-safe (Consensus, sending coins, mining a block)
+- View chain state
+- View wallet state
+- Mine a block
+- Send coins somewhere
 
 # Changelog
 
+## Oct 11-12, 2024
+- ...Migrating to new block format...
+
 ## Oct 10, 2024
-- [x] Typed: strict everywhere, except Roda apps
+- [x] `Typed: strict` everywhere
 
 ## Oct 5, 2024
 - [x] Ensure that an address always has a positive balance
@@ -40,6 +34,7 @@ NODE_NAME=alice ./bin/start_node
 
 ## Oct 3, 2024
 - [x] Sign a tx. Ensure that txs in blockchain are signed
+
 ## Oct 2, 2024
 - [x] Load or init ed25519 key when Node starts
 - [x] Generate a coin when adding a new block
@@ -59,3 +54,30 @@ NODE_NAME=alice ./bin/start_node
 - [x] Blockchain: loaded/saved from file
 - [x] Blockchain: Ensure that each block correctly references previous one
 - [x] Blockchain: Ensure that each block has a valid proof
+
+# TODO
+- [x] Next: Fix /view route
+- [x] Next: Fix /mine route
+- [ ] Next: Fix /add_tx route
+- [ ] UTXO without addresses. Multiple in, multiple out. Replace BalanceRegistry with UTXO. Stabilize app
+
+- Next: block must have a single coinbase tx, coinbase tx must have 1_000 millis (CoinbaseTxRuleSet, RegularTxRuleSet)
+- [ ] UTXO with addresses
+
+- [ ] Refactor: merge SigTx and Tx into single class
+- [ ] Review RuleSets
+
+- [ ] Transaction: check against UTXO when adding to mempool & blockchain
+- [ ] ***Implement consensus
+- [ ] Tx: leave some coins as a fee; state it explicitly
+- [ ] Allow to record a name on the blockchain somehow (in tx, or outside)
+
+- [ ] Ensure that there's only one coinbase tx in a block, and ensure the reward is correct (== 100 initially)
+
+- [ ] Tx versioning
+- [ ] Start a 24/7 node
+- [ ] EVM?
+- [ ] Web::PrivateInterface, Web::PublicInterface: ractors, not threads
+
+- [ ] Spec for BlockValidator
+- [ ] Ensure that app is thread-safe (Consensus, sending coins, mining a block)
