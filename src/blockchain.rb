@@ -26,7 +26,9 @@ class Blockchain
     # The first block must define .chain_tweaks.complexity
     read_complexity_from_block(next_block) if @blocks.empty?
 
-    brs = BlockRuleSet.new(next_block, complexity: T.must(@complexity))
+    brs = BlockRuleSet.new(
+      complexity: T.must(@complexity), block: next_block, previous_block: @blocks.last
+    )
     if brs.satisfied?
       @blocks << next_block
     else

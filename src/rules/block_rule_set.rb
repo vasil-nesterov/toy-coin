@@ -6,18 +6,24 @@ class BlockRuleSet
   sig { returns(T::Array[String]) }
   attr_reader :errors
 
-  sig { params(block: Block, complexity: Integer).void }
-  def initialize(block, complexity:)
-    @block = T.let(block, Block)
+  sig { params(complexity: Integer, block: Block, previous_block: T.nilable(Block)).void }
+  def initialize(complexity:, block:, previous_block: nil)
     @complexity = T.let(complexity, Integer)
+    @block = T.let(block, Block)
+    @previous_block = T.let(previous_block, T.nilable(Block))
 
     @errors = T.let([], T::Array[String])
   end
 
   sig { returns(T::Boolean) }
   def satisfied?
-    block_digest_satisfies_complexity &&
-      block_has_single_coinbase_tx
+    rules = [block_digest_satisfies_complexity, block_has_single_coinbase_tx]
+
+    if @previous_block
+      rules << BlockReferencesPreviousBlock.new(block: @block, previous_block: @previous_block).satisfied?
+    end
+
+    rules.all?
   end
 
   private
@@ -43,6 +49,21 @@ class BlockRuleSet
     else
       @errors << "Block has #{number_of_coinbase_txs} coinbase txs, expected 1"
       false
+    end
+  end
+
+  class BlockReferencesPreviousBlock
+    extend T::Sig
+    
+    sig { params(block: Block, previous_block: Block).void }
+    def initialize(block:, previous_block:)
+      @block = block
+      @previous_block = previous_block
+    end
+
+    sig { returns(T::Boolean) }
+    def satisfied?
+      @block.prev_dgst == BlockDigest.new(@previous_block).hex
     end
   end
 end
