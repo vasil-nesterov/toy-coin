@@ -17,40 +17,18 @@ class BlockchainStorage
       @path_to_file,
       JSON.pretty_generate(blockchain.serialize)
     )
-    logger.info("Written #{@path_to_file}")
+    logger.info("Saved blockchain to #{@path_to_file}")
   end
 
-  # sig { returns(Blockchain) }
-  # def load
-  #   data = JSON.parse(File.read(path_to_file))
+  sig { returns(Blockchain) }
+  def load
+    bc = Blockchain.new
+    File.read(@path_to_file)
+      .then { JSON.parse(_1) }
+      .each { bc.add_block(Block.from_hash(_1)) }
 
-  #   complexity = ENV.fetch('COMPLEXITY').to_i
-  #   raise "Blockchain complexity doesn't match ENV" unless complexity == data['complexity']
+    logger.info("Loaded blockchain from #{@path_to_file}")
 
-  #   bc = Blockchain.new(complexity)
-
-  #   data['blocks'].each do |block_hash| 
-  #     bc.add_block(
-  #       Block.from_h(block_hash)
-  #     )
-  #   end
-
-  #   bc
-  # end
-
-  # # Temporary method; until the network is up and somewhat stable
-  # sig { returns(Blockchain) }
-  # def load_or_init
-  #   if File.exist?(path_to_file)
-  #     load
-  #   else
-  #     # TODO: Replace with a logger
-  #     warn "Blockchain file not found. Initializing with genesis block."
-
-  #     bc = Blockchain.new(ENV.fetch('COMPLEXITY').to_i)
-  #     bc.add_block(Block.new_genesis)
-  #     save(bc)
-  #     bc
-  #   end
-  # end
+    bc
+  end
 end
