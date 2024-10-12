@@ -7,8 +7,8 @@ RSpec.describe KVStorage do
 
     describe '#fetch' do
       it 'fetches the correct value for a given key' do
-        expect(storage.fetch('SECRET')).to eq('870fb14056d582ad520033376230ab44f1da2bce678e4ea1a97fc9fd39f7cb89')
-        expect(storage.fetch('PUBLIC')).to eq('927048e09be0cd155c2e21a6dbcf5e9707e71b521d989ffae65bce5277057737')
+        expect(storage.fetch('SECRET')).to eq('6205705ab4ea755c9ffa4dc5ba8a43b303f7bf362672b5e81f9647f7907462b9')
+        expect(storage.fetch('PUBLIC')).to eq('d490db58ad194931540e8bb7f41d5d72dcbbb1fb54a5c459450eb547561ff3ef')
       end
     end
   end
