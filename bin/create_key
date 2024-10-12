@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
+# typed: strict
 
 require 'ed25519'
 require_relative '../config/boot'
 
-key_name = ARGV[0]
-if key_name.nil?
+if ARGV.size != 1
   puts "Usage: #{$PROGRAM_NAME} <key_name>"
   exit 1
 end
 
+key_name = ARGV[0]
 path = File.join(ROOT_DIR, 'data', 'keys', "#{key_name}.key")
 if File.exist?(path)
   puts "#{path}: File already exists\n" 
