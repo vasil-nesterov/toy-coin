@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+# typed: strict
+
+require_relative '../config/boot'
+
+if ARGV.size != 1 || !ARGV[0].is_integer?
+  puts "Usage: #{$PROGRAM_NAME} <complexity>"
+  exit 1
+end
+
+if File.exist?(BLOCKCHAIN_FILE_PATH)
+  puts "#{BLOCKCHAIN_FILE_PATH}: File already exists\n" 
+  exit 1
+end
+
+complexity = ARGV[0].to_i
+blockchain = Blockchain.new
+block = Block.new(
+  version: Block::CURRENT_VERSION,
+  prev_dgst: '',
+  nonce: 0,
+  chain_tweaks: { 
+    "block_version" => Block::CURRENT_VERSION, 
+    "complexity" => complexity 
+  },
+  sig_txs: []
+)
+
+blockchain.add_block(block)
+
+BlockchainStorage.new(BLOCKCHAIN_FILE_PATH).save(blockchain)

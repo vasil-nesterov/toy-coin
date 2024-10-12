@@ -5,8 +5,9 @@ require 'sorbet-runtime'
 require 'zeitwerk'
 
 ROOT_DIR = T.let(File.expand_path('../..', __FILE__), String)
+BLOCKCHAIN_FILE_PATH = T.let("#{ROOT_DIR}/data/blockchain.json", String)
 
-Dir.glob("#{ROOT_DIR}/src/core_extensions/*.rb").each do |file|
+Dir.glob("#{ROOT_DIR}/src/core_ext/*.rb").each do |file|
   require(file)
 end
 
