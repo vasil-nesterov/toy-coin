@@ -1,4 +1,7 @@
 /data/*
 /sorbet/*
+/tmp/*
+
 /spec/tmp/*
 !/spec/tmp/.gitkeep
+
