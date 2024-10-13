@@ -18,7 +18,8 @@ $loader = Zeitwerk::Loader.new
    src].each { |dir| $loader.push_dir(dir) }
 $loader.inflector.inflect(
   "kv_storage" => "KVStorage",
-  "utxo_pool" => "UTXOPool"
+  "utxo" => "UTXO",
+  "utxo_set" => "UTXOSet"
 )
 $loader.enable_reloading
 $loader.setup

@@ -1,6 +1,5 @@
 # typed: strict
 
-require 'sorbet-runtime'
 require 'time'
 
 class Tx < T::Struct
