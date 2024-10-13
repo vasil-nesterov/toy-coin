@@ -21,10 +21,10 @@ module Web
       r.post "send_coins" do
         params = JSON.parse(r.body.read)
 
-        amount = params["amount"].to_f
+        millis_to_send = params["millis"].to_i
         
-        if wallet.balance >= amount
-          wallet.send_coins(params["recipient"], amount)
+        if wallet.balance >= millis_to_send
+          wallet.send_coins(recipient_address: params["destination"], millis: millis_to_send)
           { status: "success", wallet: wallet.to_h }          
         else
           { status: "error", error: "Not enough coins", wallet: wallet.to_h }

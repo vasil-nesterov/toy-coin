@@ -1,9 +1,5 @@
 # typed: strict
 
-require "digest/blake3"
-require "ed25519"
-require "sorbet-runtime"
-
 # Node doesn't expose Blockchain and Mempool directly, 
 #   except #to_h method to visualize the state
 class Node
@@ -39,21 +35,26 @@ class Node
     @utxo_set.process_block(block)
   end
 
-  # sig { params(transaction: Transaction).returns(T::Boolean) }
-  # def add_transaction_to_mempool(transaction)
-  #   result = @mempool.add_transaction(transaction)
+  sig { params(tx: Tx).returns(T::Boolean) }
+  def add_transaction_to_mempool(tx)
+    result = @mempool.add_tx(tx)
 
-  #   if result
-  #     @balance_registry.process_transaction(transaction)
-  #   end
+    if result
+      @utxo_set.process_transaction(tx)
+    end
 
-  #   result
-  # end
+    result
+  end
 
   # Interface for Wallet
   sig { params(address: String).returns(Integer) }
   def balance_for(address)
     @utxo_set.balance_for(address)
+  end
+
+  sig { params(address: String).returns(T::Array[UTXO]) }
+  def utxos_for(address)
+    @utxo_set.utxos_for(address)
   end
 
   # Interface for Miner. TODO: Find a better way to organize this

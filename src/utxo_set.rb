@@ -20,6 +20,11 @@ class UTXOSet
     find_by_dest_address(address).sum(&:millis)
   end
 
+  sig { params(address: String).returns(T::Array[UTXO]) }
+  def utxos_for(address)
+    find_by_dest_address(address)
+  end
+
   sig { params(block: Block).void }
   def process_block(block)
     block.txs.each do |tx|

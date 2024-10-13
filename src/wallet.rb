@@ -5,7 +5,10 @@
 #   - Sending coins 
 # Adding to mempool is Node's responsibility
 
-# TODO: Wallet should connect to Node via HTTP
+# TODO:
+# - send_coins: set wits
+# - connect to Node via HTTP
+
 class Wallet
   extend T::Sig
 
@@ -22,15 +25,34 @@ class Wallet
     @miner = T.let(nil, T.nilable(Thread))
   end
 
-  # sig { params(recipient_address: String, millis: Integer).void }
-  # def send_coins(recipient_address:, millis:)
-  #   # Take outs that belong to this wallet, until outs.sum(:millis) < amount_to_send
-  #   # Create a tx with 
-  #   #   - inputs: these outs
-  #   #   - outputs: (1) recipient_address + (2) the rest of the outs back to this wallet
-  #   #   - sign inputs with this wallet's key
-  #   @node.process_tx(tx)
-  # end
+  sig { returns(T::Hash[String, T.untyped]) } 
+  def to_h
+    { address:, balance:, miner_status: }
+  end
+
+  sig { params(recipient_address: String, millis: Integer).void }
+  def send_coins(recipient_address:, millis:)
+    tx = Tx.new(
+      dgst: "", 
+      at: Time.now, 
+      ins: [], 
+      outs: [], 
+      wits: []
+    )
+
+    utxos = utxos_to_cover(millis)
+
+    utxos.each do |utxo|
+      tx.ins << In.new(tx_id: utxo.tx_id, out_i: utxo.out_i)
+    end
+
+    tx.outs << Out.new(dest_pub: recipient_address, millis: millis)
+    if utxos.sum(&:millis) > millis
+      tx.outs << Out.new(dest_pub: address, millis: utxos.sum(&:millis) - millis)
+    end
+
+    @node.add_transaction_to_mempool(tx)
+  end
 
   sig { returns(Thread) }
   def mine_next_block
@@ -48,11 +70,11 @@ class Wallet
     end
   end
 
-  sig { returns(T::Hash[String, T.untyped]) } 
-  def to_h
-    { address:, balance:, miner_status: }
+  sig { returns(Integer) }
+  def balance
+    @node.balance_for(@public_key.hex)
   end
-
+  
   private
 
   sig { returns(String) }
@@ -60,9 +82,25 @@ class Wallet
     @public_key.hex
   end
 
-  sig { returns(Integer) }
-  def balance
-    @node.balance_for(@public_key.hex)
+  sig { returns(T::Array[UTXO]) }
+  def utxos
+    @node.utxos_for(address)
+  end
+
+  sig { params(millis: Integer).returns(T::Array[UTXO]) }
+  def utxos_to_cover(millis)
+    result = []
+    
+    utxos.each do |utxo|
+      result << utxo
+      break if result.sum(&:millis) >= millis
+    end
+
+    if result.sum(&:millis) < millis
+      raise "Not enough balance"
+    end
+
+    result
   end
 
   sig { returns(String) }
