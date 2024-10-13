@@ -10,9 +10,10 @@ PATH_TO_BLOCKCHAIN_STORAGE = "#{ROOT_DIR}/data/blockchain.json"
 blockchain_storage = BlockchainStorage.new(PATH_TO_BLOCKCHAIN_STORAGE)
 
 node_name = ENV.fetch("NODE_NAME")
+private_key = PrivateKey.load_from_file("#{ROOT_DIR}/data/keys/#{node_name}.key")
 
 node = Node.new(blockchain_storage: blockchain_storage)
-wallet = Wallet.new(node: node)
+wallet = Wallet.new(node: node, private_key:)
 
 def run_app(app, port)
   server = Puma::Server.new(app)

@@ -14,4 +14,9 @@ class PublicKey
   rescue Ed25519::VerifyError
     false
   end
+
+  sig { returns(String) }
+  def hex
+    @vk.to_bytes.to_hex
+  end
 end

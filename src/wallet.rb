@@ -11,24 +11,15 @@ class Wallet
   MINER_IDLE = T.let("idle".freeze, String)
   MINER_RUNNING = T.let("running".freeze, String)
 
-  sig { params(node: Node).void }
-  def initialize(node:)
+  sig { params(node: Node, private_key: PrivateKey).void }
+  def initialize(node:, private_key:)
     @node = node
+    @private_key = private_key
+    @public_key = T.let(private_key.public_key, PublicKey)
+    
     @miner = T.let(nil, T.nilable(Thread))
   end
 
-  # TODO: FIX
-  sig { params(recipient_address: String, amount: Float).void }
-  def send_coins(recipient_address, amount)
-    tx = Transaction.new(
-      sender: @key.address, 
-      recipient: recipient_address,
-      value: amount
-    )
-    tx.sign_with_key(@key)
-
-    @node.add_transaction_to_mempool(tx)
-  end
 
   sig { returns(Thread) }
   def mine_next_block
@@ -38,7 +29,8 @@ class Wallet
       # TODO: Save the key to a file. Later on, add Keychain abstraction over a group of private keys
       next_block, _coinbase_private_key = Miner.new(
         complexity: @node.blockchain_complexity,
-        last_block_dgst: @node.last_block_dgst
+        last_block_dgst: @node.last_block_dgst,
+        public_key: @public_key
       ).next_block
 
       @node.add_block(next_block)

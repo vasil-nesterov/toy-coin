@@ -31,6 +31,11 @@ class PrivateKey
     @secret_part.sign(data).to_hex
   end
 
+  sig { returns(PublicKey) }
+  def public_key
+    PublicKey.new(public_hex)
+  end
+
   sig { returns(String) }
   def secret_hex
     @secret_part.to_bytes.to_hex

@@ -15,13 +15,19 @@ if File.exist?(BLOCKCHAIN_FILE_PATH)
   exit 1
 end
 
+# TODO: Move to an arg with a reasonable name, e.g. coinbase_key
+node_name = ENV.fetch('NODE_NAME')
+public_key = PrivateKey
+  .load_from_file("#{ROOT_DIR}/data/keys/#{node_name}.key")
+  .public_key
+
 chain_tweaks = {
   block_version: Block::CURRENT_VERSION,
   complexity:
 }
 
 blockchain = Blockchain.new
-miner = Miner.new(complexity:, last_block_dgst: "")
+miner = Miner.new(complexity:, last_block_dgst: "", public_key:)
 # TODO: Save coinbase signing key somewhere
 genesis_block, _coinbase_signing_key = miner.next_block(chain_tweaks:)
 

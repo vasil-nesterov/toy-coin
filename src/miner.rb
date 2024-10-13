@@ -2,22 +2,21 @@
  
 # Miner's responsibilities:
 # - Build the next block
-# - Return [block, private-key-for-coinbase-tx-output]
+# - [TODO] Fetch N htxs from mempool ordered by priority DESC
+# - [TODO] Create a new private key for the coinbase tx output
+# - [TODO] Replace dest_pub with dest_pub_dgst
 class Miner
   extend T::Sig
 
-  sig { params(complexity: Integer, last_block_dgst: String).void }
-  def initialize(complexity:, last_block_dgst:)
-    # TODO: Fetch N high-priority txs from mempool
+  sig { params(complexity: Integer, last_block_dgst: String, public_key: PublicKey).void }
+  def initialize(complexity:, last_block_dgst:, public_key:)
     @complexity = complexity
     @last_block_dgst = last_block_dgst
-
-    @coinbase_private_key = T.let(PrivateKey.generate, PrivateKey)
+    @public_key = public_key
   end
 
-  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns([Block, PrivateKey]) }
+  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns(Block) }
   def next_block(chain_tweaks: nil)
-    # TODO: Add N txs to the block
     block = Block.new(
       ver: Block::CURRENT_VERSION,
       prev_dgst: @last_block_dgst,
@@ -35,7 +34,7 @@ class Miner
       break if BlockDigestSatisfiesComplexity.new(block: block, complexity: @complexity).satisfied?
     end
 
-    [block, @coinbase_private_key]
+    block
   end
 
   private
@@ -43,7 +42,7 @@ class Miner
   sig { returns(Tx) }
   def coinbase_tx
     out = Out.new(
-      dest_pub: @coinbase_private_key.public_hex,
+      dest_pub: @public_key.hex,
       millis: 1_000 # TODO: A better logic
     )
 
