@@ -1,28 +1,27 @@
-# typed: false
+# typed: strict
 
 RSpec.describe Tx do
-  describe '.from_hash' do
-    let(:payload) do
-      {
-        'id' => 'abc123',
-        'at' => '2024-01-01T00:00:00Z',
-        'in' => [
-          { 'tx_id' => 'abc123', 'out_i' => 0 }
-        ],
-        'out' => [
-          { 'dest_pub' => 'def456', 'millis' => 1_000 }
-        ]
-      }
+  T.bind(self, T.untyped)
+
+  let(:tx) { 
+    Tx.new(
+      dgst: 'abc123',
+      at: Time.now,
+      ins: [],
+      outs: [],
+      wits: []
+    )
+  }
+  
+  describe '#coinbase?' do
+    it 'returns true if the transaction is a coinbase' do
+      expect(tx.coinbase?).to be(true)
     end
 
-    it 'creates a Tx instance from a hash' do
-      tx = Tx.from_hash(payload)
+    it 'returns false if the transaction is not coinbase' do
+      tx.ins = [In.new(tx_id: 'abc123', out_i: 0)]
 
-      expect(tx).to be_a(Tx)
-      expect(tx.in).to be_an(Array)
-      expect(tx.in.first).to be_an(In)
-      expect(tx.out).to be_an(Array)
-      expect(tx.out.first).to be_an(Out)
+      expect(tx.coinbase?).to be(false)
     end
   end
 end

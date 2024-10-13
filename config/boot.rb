@@ -4,6 +4,7 @@ require "ed25519"
 require "digest/blake3"
 require "dotenv"
 require "sorbet-runtime"
+require "time"
 require "zeitwerk"
 
 ROOT_DIR = T.let(File.expand_path("../..", __FILE__), String)
