@@ -12,23 +12,32 @@ class Node
   sig { params(blockchain_storage: BlockchainStorage).void }
   def initialize(blockchain_storage:)
     @blockchain_storage = blockchain_storage
-    @blockchain = T.let(@blockchain_storage.load, Blockchain)
+    blockchain, utxo_set = @blockchain_storage.load
+
+    @blockchain = T.let(blockchain, Blockchain)
+    @utxo_set = T.let(utxo_set, UTXOSet)  
+
     @mempool = T.let(Mempool.new, Mempool)
-    # TODO: @utxo_pool = T.let(UTXOPool.new, UTXOPool)
   end
 
   sig { returns(T::Hash[String, T.untyped]) }
   def to_h
     {
       "mempool" => @mempool.serialize,
-      "blockchain" => @blockchain.serialize.reverse
+      "utxos" => @utxo_set.serialize,
+      # TODO: Move to BlockchainSerializer#pretty_serialize
+      "blockchain" => @blockchain.serialize.map.with_index { |block_hash, i| {"height" => i}.merge(block_hash) }.reverse
     }
   end
 
-  # sig { params(address: String).returns(Float) }
-  # def balance(address)
-  #   @balance_registry.balance(address)
-  # end
+  sig { params(block: Block).void }
+  def add_block(block)
+    @blockchain.add_block(block)
+    @blockchain_storage.save(@blockchain) if ENV["PERSIST_BLOCKCHAIN"] == "true"
+
+    # TODO: Remove block.txs from mempool
+    @utxo_set.process_block(block)
+  end
 
   # sig { params(transaction: Transaction).returns(T::Boolean) }
   # def add_transaction_to_mempool(transaction)
@@ -41,16 +50,13 @@ class Node
   #   result
   # end
 
-  sig { params(block: Block).void }
-  def add_block(block)
-    @blockchain.add_block(block)
-    @blockchain_storage.save(@blockchain) if ENV["PERSIST_BLOCKCHAIN"] == "true"
-
-    # @balance_registry = @blockchain.balance_registry.deep_clone
-    #Node should remove block.txs from mempool during Node#add_block
+  # Interface for Wallet
+  sig { params(address: String).returns(Integer) }
+  def balance_for(address)
+    @utxo_set.balance_for(address)
   end
 
-  # Interface used by Miner. TODO: Find a better way to organize this
+  # Interface for Miner. TODO: Find a better way to organize this
   sig { returns(Integer) }
   def blockchain_complexity
     @blockchain.current_complexity

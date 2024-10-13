@@ -3,10 +3,16 @@
 # TODO: Use a DB with 2 indexes under the hood. Clickhouse, RedisSearch, whatever.
 class UTXOSet
   extend T::Sig
+  include Logging
 
   sig { void }
   def initialize
     @utxos = T.let(Set.new, T::Set[UTXO])
+  end
+
+  sig { returns(T::Array[T::Hash[String, T.untyped]]) }
+  def serialize
+    @utxos.map(&:to_hash)
   end
 
   sig { params(address: String).returns(Integer) }
@@ -38,6 +44,7 @@ class UTXOSet
         millis: out.millis
       )
 
+      logger.info "utxo added: #{utxo.to_hash}"
       @utxos.add(utxo)
     end
   end

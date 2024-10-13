@@ -20,15 +20,21 @@ class BlockchainStorage
     logger.info("Saved blockchain to #{@path_to_file}")
   end
 
-  sig { returns(Blockchain) }
+  sig { returns([Blockchain, UTXOSet]) }
   def load
     bc = Blockchain.new
+    utxo_set = UTXOSet.new
+
     File.read(@path_to_file)
       .then { JSON.parse(_1) }
-      .each { bc.add_block(Block.from_hash(_1)) }
+      .map { Block.from_hash(_1) }
+      .each do |block|
+        bc.add_block(block)
+        utxo_set.process_block(block)
+      end
 
     logger.info("Loaded blockchain from #{@path_to_file}")
 
-    bc
+    [bc, utxo_set]
   end
 end

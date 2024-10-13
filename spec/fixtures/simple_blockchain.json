@@ -1,23 +1,23 @@
 [
   {
     "ver": 2,
-    "dgst": "000b62803f08a0961f3c5ba0ad241f0378ed45fb119754c98f5b30fa92ade834",
+    "dgst": "000000abfc85c5fcc3f8c3bda899ce710472b2e666c737f14d532c60c03a8133",
     "prev_dgst": "",
-    "nonce": 364,
+    "nonce": 4537186,
     "chain_tweaks": {
       "block_version": 2,
-      "complexity": 3
+      "complexity": 6
     },
     "txs": [
       {
         "dgst": "",
-        "at": "2024-10-12T15:54:12Z",
+        "at": "2024-10-13T13:05:03Z",
         "ins": [
 
         ],
         "outs": [
           {
-            "dest_pub": "55fd27e190b122b47f0e5a7873e8c1e615085f246a99b930a840131d6e955e7e",
+            "dest_pub": "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
             "millis": 1000
           }
         ],
@@ -29,19 +29,43 @@
   },
   {
     "ver": 2,
-    "dgst": "000642545bb12507b9c99f2e85fe6b6ff8d3aa1e39efa68fdcf2fa89dfe509d6",
-    "prev_dgst": "000b62803f08a0961f3c5ba0ad241f0378ed45fb119754c98f5b30fa92ade834",
-    "nonce": 1029,
+    "dgst": "000000fe34e77eef6336da8896aeb81ccdb07f3a0e2bfaf553fae3bbdf5d8b12",
+    "prev_dgst": "000000abfc85c5fcc3f8c3bda899ce710472b2e666c737f14d532c60c03a8133",
+    "nonce": 5886566,
     "txs": [
       {
         "dgst": "",
-        "at": "2024-10-12T15:54:12Z",
+        "at": "2024-10-13T13:06:26Z",
         "ins": [
 
         ],
         "outs": [
           {
-            "dest_pub": "bd51904d49166779ca7e5da21adf7bc6f299f8910ec433cb73494afcdf957b0f",
+            "dest_pub": "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
+            "millis": 1000
+          }
+        ],
+        "wits": [
+
+        ]
+      }
+    ]
+  },
+  {
+    "ver": 2,
+    "dgst": "000000d784a70fb62df8cd9a0e1eecdc383153e9e3e565f3194ee0cf69cce54f",
+    "prev_dgst": "000000fe34e77eef6336da8896aeb81ccdb07f3a0e2bfaf553fae3bbdf5d8b12",
+    "nonce": 7416533,
+    "txs": [
+      {
+        "dgst": "",
+        "at": "2024-10-13T13:10:49Z",
+        "ins": [
+
+        ],
+        "outs": [
+          {
+            "dest_pub": "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
             "millis": 1000
           }
         ],

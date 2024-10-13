@@ -7,9 +7,10 @@ class Blockchain
 
   sig { void }
   def initialize
-    @blocks = T.let([], T::Array[Block])
-    # @utxo_pool = T.let(UTXOPool.new, UTXOPool)
     @complexity = T.let(nil, T.nilable(Integer))
+
+    @blocks = T.let([], T::Array[Block])
+    @utxo_set = T.let(UTXOSet.new, UTXOSet)
   end
 
   sig { returns(Integer) }
@@ -33,6 +34,7 @@ class Blockchain
     )
     if brs.satisfied?
       @blocks << next_block
+      @utxo_set.process_block(next_block)
     else
       raise InvalidBlockAddedError, "Block is invalid: #{brs.errors.join("\n")}"
     end
