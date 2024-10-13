@@ -2,7 +2,8 @@
 
 ### Init the chain
 ```
-bin/init_blockchain 6
+bin/create_key alice
+NODE_NAME=alice bin/init_blockchain 6
 ```
 
 ### Start the node
@@ -10,15 +11,36 @@ bin/init_blockchain 6
 NODE_NAME=alice bin/start_node
 ```
 
-- View chain state
-- View wallet state
-- Mine a block
-- Send coins somewhere
+### View chain state
+```
+curl http://localhost:7001/state | jq
+```
+
+### View wallet state
+```
+curl http://localhost:7002/info | jq
+```
+
+### Mine a block
+```
+curl -X POST http://localhost:7002/mine
+```
+
+### Send coins somewhere
+```
+curl -X POST -d '
+  {
+    "destination": "0698290dd9c46accadba5da29a1c436efa5e3ebca80da532df95d6395527c24b",
+    "millis": 10
+  }
+' http://localhost:7002/send_coins
+```
 
 # Changelog
 
-## Oct 11-12, 2024
-- ...Migrating to new block format...
+## Oct 11-13, 2024
+- [x] Migrate to new block format.
+- [x] Migrate from accounts to UTXOs.
 
 ## Oct 10, 2024
 - [x] `Typed: strict` everywhere
@@ -56,15 +78,10 @@ NODE_NAME=alice bin/start_node
 - [x] Blockchain: Ensure that each block has a valid proof
 
 # TODO
-- [x] Next: Fix /view route
-- [x] Next: Fix /mine route
-- [ ] Next: Fix /add_tx route
-- [ ] UTXO without addresses. Multiple in, multiple out. Replace BalanceRegistry with UTXO. Stabilize app
 
-- Next: block must have a single coinbase tx, coinbase tx must have 1_000 millis (CoinbaseTxRuleSet, RegularTxRuleSet)
-- [ ] UTXO with addresses
+- Review RuleSets. Implement all the necessary block rules
 
-- [ ] Refactor: merge SigTx and Tx into single class
+- [ ] Wallet: Working with multiple keys/addresses as with a single wallet.
 - [ ] Review RuleSets
 
 - [ ] Transaction: check against UTXO when adding to mempool & blockchain
