@@ -10,7 +10,7 @@ class UTXO < T::Struct
   const :millis, Integer
 
   sig { returns(T::Hash[String, T.untyped]) }
-  def to_hash
+  def to_representation
     {
       "tx_id" => tx_id,
       "out_i" => out_i,

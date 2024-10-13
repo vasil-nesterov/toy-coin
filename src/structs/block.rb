@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'sorbet-runtime'
-
 class Block < T::Struct
   CURRENT_VERSION = 2
   
@@ -16,15 +14,4 @@ class Block < T::Struct
   # TODO: Rename to chain_updates
   # TODO: Convert to a proper struct
   prop :chain_tweaks, T.nilable(T::Hash[Symbol, T.untyped])
-
-  sig { params(payload: T::Hash[String, T.untyped]).returns(Block) }
-  def self.from_hash(payload)
-    new(
-      ver: payload['ver'],
-      prev_dgst: payload['prev_dgst'],
-      nonce: payload['nonce'],
-      chain_tweaks: payload['chain_tweaks']&.transform_keys(&:to_sym),
-      txs: payload['txs'].map { |tx| Tx.from_hash(tx) }
-    )
-  end
 end
