@@ -1,12 +1,14 @@
-# typed: false
+# typed: strict
 
-RSpec.describe Key do
+RSpec.describe PrivateKey do
+  T.bind(self, T.untyped)
+
   context "when loading from a file" do
-    let(:key) { Key.load_from_file("#{ROOT_DIR}/spec/fixtures/alice_test.key") }
+    let(:key) { PrivateKey.load_from_file("#{ROOT_DIR}/spec/fixtures/alice_test.key") }
 
     describe '.load_from_file' do
-      it 'returns a Key instance' do
-        expect(key).to be_a(Key)
+      it 'returns a PrivateKey instance' do
+        expect(key).to be_a(PrivateKey)
       end
     end
 

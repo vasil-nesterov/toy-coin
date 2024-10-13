@@ -12,10 +12,10 @@ class Miner
     @complexity = complexity
     @last_block_dgst = last_block_dgst
 
-    @coinbase_private_key = T.let(Key.generate, Key)
+    @coinbase_private_key = T.let(PrivateKey.generate, PrivateKey)
   end
 
-  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns([Block, Key]) }
+  sig { params(chain_tweaks: T.nilable(T::Hash[Symbol, T.untyped])).returns([Block, PrivateKey]) }
   def next_block(chain_tweaks: nil)
     # TODO: Add N txs to the block
     block = Block.new(

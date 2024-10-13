@@ -1,22 +1,20 @@
 # typed: strict
 
 require 'ed25519'
-require 'sorbet-runtime'
 
-# TODO: Rename to PrivateKey
-class Key
+class PrivateKey
   extend T::Sig
 
   class << self
     extend T::Sig
 
-    sig { params(path: String).returns(Key) }
+    sig { params(path: String).returns(PrivateKey) }
     def load_from_file(path)
       hex = KVStorage.new(path).fetch('SECRET')
       new(hex)
     end
 
-    sig { returns(Key) }
+    sig { returns(PrivateKey) }
     def generate
       new(Ed25519::SigningKey.generate.to_bytes.to_hex)
     end
