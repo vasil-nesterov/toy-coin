@@ -15,6 +15,7 @@ class BlockRuleSet
     @errors = T.let([], T::Array[String])
   end
 
+  # TODO: A better way to compose rules. BlockDigestSatisfiesComplexity is a great start.
   sig { returns(T::Boolean) }
   def satisfied?
     rules = [
@@ -58,6 +59,8 @@ class BlockRuleSet
 
   sig { returns(T::Boolean) }
   def txs_rules_satisfied
+    # coinbase_txs, regular_txs = @block.txs.partition(&:coinbase?)
+
     txs_rule_sets = @block.txs.map { TxRuleSet.new(_1) }
 
     if txs_rule_sets.all?(&:satisfied?)

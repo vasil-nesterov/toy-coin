@@ -1,8 +1,5 @@
 # typed: strict
 
-require 'rspec'
-require 'sorbet-runtime'
-
 RSpec.describe Miner do
   T.bind(self, T.untyped) # https://stackoverflow.com/a/76301199
 

@@ -32,9 +32,7 @@ class Miner
 
     loop do
       block.nonce += 1
-      hex = BlockDigest.new(block).hex
-    
-      break if hex.start_with?("0" * @complexity)
+      break if BlockDigestSatisfiesComplexity.new(block: block, complexity: @complexity).satisfied?
     end
 
     [block, @coinbase_private_key]
