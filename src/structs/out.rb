@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'sorbet-runtime'
-
 class Out < T::Struct
   extend T::Sig
   
@@ -9,18 +7,18 @@ class Out < T::Struct
   prop :millis, Integer
 
   sig { params(payload: T::Hash[String, T.untyped]).returns(Out) }
-  def self.from_hash(payload)
+  def self.from_representation(payload)
     new(
-      dest_pub: payload['dest_pub'],
-      millis: payload['millis']
+      dest_pub: payload["dest_pub"],
+      millis: payload["millis"]
     )
   end
 
   sig { returns(T::Hash[String, T.untyped]) }
-  def to_hash
+  def to_representation
     {
-      dest_pub: dest_pub,
-      millis: millis
+      "dest_pub" => dest_pub,
+      "millis" => millis
     }
   end
 end
