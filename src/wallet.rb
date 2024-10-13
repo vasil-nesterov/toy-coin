@@ -39,6 +39,7 @@ class Wallet
       outs: [], 
       wits: []
     )
+    tx.dgst = TxDigest.new(tx).hex
 
     utxos = utxos_to_cover(millis)
 
