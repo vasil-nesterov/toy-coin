@@ -7,7 +7,7 @@ describe BlockDigest do
       prev_dgst: "previous_digest",
       nonce: 12345,
       chain_tweaks: { "complexity" => 1 },
-      sig_txs: []
+      sig_txs: [] # TODO: test that a change in tx invalidates the digest
     )
   end
 

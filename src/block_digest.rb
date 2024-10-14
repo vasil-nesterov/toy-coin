@@ -17,14 +17,11 @@ class BlockDigest
 
   private
 
-  sig { returns(T::Hash[Symbol, T.untyped]) }
+  # TODO: a better name
+  sig { returns(T::Hash[String, T.untyped]) }
   def block_header
-    BlockSerializer.new(@block).header_hash.slice(*%i[
-      ver
-      prev_dgst
-      nonce
-      chain_tweaks
-      sig_txs
-    ])
+    BlockSerializer
+      .new(@block)
+      .representation_for_digest
   end
 end

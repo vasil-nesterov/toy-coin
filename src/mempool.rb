@@ -8,17 +8,13 @@ class Mempool
     @txs = T.let([], T::Array[Tx])
   end
 
-  # TODO: consistent naming. Serialize everywhere.
   sig { returns(T::Array[T::Hash[String, T.untyped]]) }
-  def serialize
-    @txs.map { _1.to_hash }
+  def to_representation
+    @txs.map { TxSerializer.new(_1).full_representation }
   end
 
-  # WIP: Ensure that tx is valid
-  sig { params(tx: Tx).returns(T::Boolean) }
+  sig { params(tx: Tx).void }
   def add_tx(tx)
     @txs << tx
-
-    true
   end
 end

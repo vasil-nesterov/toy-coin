@@ -21,7 +21,7 @@ class Blockchain
   # TODO: Move to BlockchainSerializer
   sig { returns(T::Array[T::Hash[String, T.untyped]]) }
   def serialize
-    @blocks.map { |block| BlockSerializer.new(block).full_hash }
+    @blocks.map { |block| BlockSerializer.new(block).full_representation }
   end
 
   sig { params(next_block: Block).void }

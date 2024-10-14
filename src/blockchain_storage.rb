@@ -27,7 +27,7 @@ class BlockchainStorage
 
     File.read(@path_to_file)
       .then { JSON.parse(_1) }
-      .map { Block.from_hash(_1) }
+      .map { BlockSerializer.from_representation(_1) }
       .each do |block|
         bc.add_block(block)
         utxo_set.process_block(block)

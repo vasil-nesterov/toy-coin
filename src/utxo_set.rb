@@ -12,7 +12,7 @@ class UTXOSet
 
   sig { returns(T::Array[T::Hash[String, T.untyped]]) }
   def serialize
-    @utxos.map(&:to_hash)
+    @utxos.map(&:to_representation)
   end
 
   sig { params(address: String).returns(Integer) }
@@ -49,7 +49,7 @@ class UTXOSet
         millis: out.millis
       )
 
-      logger.info "utxo added: #{utxo.to_hash}"
+      logger.info "utxo added: #{utxo.to_representation}"
       @utxos.add(utxo)
     end
   end

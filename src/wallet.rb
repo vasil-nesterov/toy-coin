@@ -52,7 +52,7 @@ class Wallet
       tx.outs << Out.new(dest_pub: address, millis: utxos.sum(&:millis) - millis)
     end
 
-    @node.add_transaction_to_mempool(tx)
+    @node.process_tx(tx)
   end
 
   sig { returns(Thread) }
