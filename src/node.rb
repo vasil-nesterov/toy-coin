@@ -16,10 +16,11 @@ class Node
     @mempool = T.let(Mempool.new, Mempool)
   end
 
+  # TODO: Consistent naming. #to_representation everywhere.
   sig { returns(T::Hash[String, T.untyped]) }
   def to_h
     {
-      "mempool" => @mempool.serialize,
+      "mempool" => @mempool.to_representation,
       "utxos" => @utxo_set.serialize,
       # TODO: Move to BlockchainSerializer#pretty_serialize
       "blockchain" => @blockchain.serialize.map.with_index { |block_hash, i| {"height" => i}.merge(block_hash) }.reverse
@@ -36,14 +37,14 @@ class Node
   end
 
   sig { params(tx: Tx).returns(T::Boolean) }
-  def add_transaction_to_mempool(tx)
-    result = @mempool.add_tx(tx)
-
-    if result
+  def process_tx(tx)
+    if TxRuleSet.new(tx: tx, utxo_set: @utxo_set).satisfied?
+      @mempool.add_tx(tx)
       @utxo_set.process_transaction(tx)
+      true
+    else
+      false
     end
-
-    result
   end
 
   # Interface for Wallet

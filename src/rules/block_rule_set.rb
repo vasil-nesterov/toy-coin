@@ -6,10 +6,11 @@ class BlockRuleSet
   sig { returns(T::Array[String]) }
   attr_reader :errors
 
-  sig { params(complexity: Integer, block: Block, previous_block: T.nilable(Block)).void }
-  def initialize(complexity:, block:, previous_block: nil)
+  sig { params(block: Block, complexity: Integer, utxo_set: UTXOSet, previous_block: T.nilable(Block)).void }
+  def initialize(block:, complexity:, utxo_set:, previous_block: nil)
     @complexity = T.let(complexity, Integer)
     @block = T.let(block, Block)
+    @utxo_set = T.let(utxo_set, UTXOSet)
     @previous_block = T.let(previous_block, T.nilable(Block))
 
     @errors = T.let([], T::Array[String])
@@ -61,12 +62,12 @@ class BlockRuleSet
   def txs_rules_satisfied
     # coinbase_txs, regular_txs = @block.txs.partition(&:coinbase?)
 
-    txs_rule_sets = @block.txs.map { TxRuleSet.new(_1) }
+    txs_rule_sets = @block.txs.map { TxRuleSet.new(tx: _1, utxo_set: @utxo_set) }
 
     if txs_rule_sets.all?(&:satisfied?)
       true
     else
-      # TODO: errors
+      @errors << "Block contains invalid transactions"
       false
     end
   end

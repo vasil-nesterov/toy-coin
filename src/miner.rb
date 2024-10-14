@@ -46,12 +46,15 @@ class Miner
       millis: 1_000 # TODO: A better logic
     )
 
-    Tx.new(
+    tx = Tx.new(
       dgst: '',
       at: Time.now.utc,
       ins: [],
       outs: [out],
       wits: []
     )
+
+    tx.dgst = TxDigest.new(tx).hex
+    tx
   end
 end

@@ -8,7 +8,7 @@ class Blockchain
   sig { void }
   def initialize
     @complexity = T.let(nil, T.nilable(Integer))
-
+    
     @blocks = T.let([], T::Array[Block])
     @utxo_set = T.let(UTXOSet.new, UTXOSet)
   end
@@ -30,7 +30,10 @@ class Blockchain
     read_complexity_from_block(next_block) if @blocks.empty?
 
     brs = BlockRuleSet.new(
-      complexity: T.must(@complexity), block: next_block, previous_block: @blocks.last
+      complexity: T.must(@complexity), 
+      block: next_block, 
+      previous_block: @blocks.last,
+      utxo_set: @utxo_set
     )
     if brs.satisfied?
       @blocks << next_block
