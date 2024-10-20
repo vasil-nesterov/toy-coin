@@ -2,7 +2,6 @@
 
 class KVStorage
   extend T::Sig
-  include Logging
 
   sig { params(path: String).void }
   def initialize(path)
@@ -28,7 +27,7 @@ class KVStorage
       .join("\n")
 
     File.write(@path, doc)
-    logger.info("Written #{@path}")
+    Log.info("Written #{@path}")
   end
 end
 

@@ -3,9 +3,12 @@
 require "ed25519"
 require "digest/blake3"
 require "dotenv"
+require 'logger'
 require "sorbet-runtime"
 require "time"
 require "zeitwerk"
+
+# TODO: Split boot.rb into initializers
 
 ROOT_DIR = T.let(File.expand_path("../..", __FILE__), String)
 BLOCKCHAIN_FILE_PATH = T.let("#{ROOT_DIR}/data/blockchain.json", String)
@@ -13,6 +16,9 @@ BLOCKCHAIN_FILE_PATH = T.let("#{ROOT_DIR}/data/blockchain.json", String)
 Dir.glob("#{ROOT_DIR}/src/core_ext/*.rb").each do |file|
   require(file)
 end
+
+# TODO: Better approach to logging
+Log = Logger.new(STDOUT)
 
 $loader = Zeitwerk::Loader.new
 %w[config/middleware

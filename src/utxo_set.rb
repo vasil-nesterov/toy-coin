@@ -3,7 +3,6 @@
 # TODO: Use a DB with 2 indexes under the hood. Clickhouse, RedisSearch, whatever.
 class UTXOSet
   extend T::Sig
-  include Logging
 
   sig { void }
   def initialize
@@ -49,7 +48,7 @@ class UTXOSet
         millis: out.millis
       )
 
-      logger.info "utxo added: #{utxo.to_representation}"
+      Log.debug "utxo added: #{utxo.to_representation}"
       @utxos.add(utxo)
     end
   end

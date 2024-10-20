@@ -2,7 +2,6 @@
 
 class BlockchainStorage
   extend T::Sig
-  include Logging
 
   sig { params(path_to_file: String).void }
   def initialize(path_to_file)
@@ -15,7 +14,7 @@ class BlockchainStorage
       @path_to_file,
       JSON.pretty_generate(blockchain.serialize)
     )
-    logger.info("Saved blockchain to #{@path_to_file}")
+    Log.info("Saved blockchain to #{@path_to_file}")
   end
 
   # TODO: Refactor to return only a Blockchain. 
@@ -33,7 +32,7 @@ class BlockchainStorage
         utxo_set.process_block(block)
       end
 
-    logger.info("Loaded blockchain from #{@path_to_file}")
+    Log.info("Loaded blockchain from #{@path_to_file}")
 
     [bc, utxo_set]
   end
