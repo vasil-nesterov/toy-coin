@@ -13,9 +13,11 @@ describe String do
     end
   end
 
-  it "can be converted to bytes and back" do
-    expect(
-      hex.to_bytes.to_hex
-    ).to eq(hex)
+  describe "#to_bytes, #to_hex" do
+    it "converts string to bytes and back" do
+      expect(
+        hex.to_bytes.to_hex
+      ).to eq(hex)
+    end
   end
 end

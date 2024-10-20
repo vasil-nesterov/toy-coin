@@ -1,7 +1,5 @@
 # typed: strict
 
-require "sorbet-runtime"
-
 class String
   extend T::Sig
 
@@ -12,7 +10,7 @@ class String
 
   sig { returns(String) }
   def to_hex
-    unpack("H*").first.to_s
+    unpack1("H*")
   end
 
   sig { returns(String) }

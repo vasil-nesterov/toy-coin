@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'json'
-
 class Hash
   extend T::Sig
 
