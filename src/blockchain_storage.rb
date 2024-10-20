@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'json'
-
 class BlockchainStorage
   extend T::Sig
   include Logging
@@ -20,6 +18,8 @@ class BlockchainStorage
     logger.info("Saved blockchain to #{@path_to_file}")
   end
 
+  # TODO: Refactor to return only a Blockchain. 
+  # Computing UTXO for Node shouldn't be BlockchainStorage's responsibility.
   sig { returns([Blockchain, UTXOSet]) }
   def load
     bc = Blockchain.new

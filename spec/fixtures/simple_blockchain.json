@@ -1,65 +1,17 @@
 [
   {
+    "dgst": "000000e8b33ad7bc5e8c7d79c575335f11ad6c3de04d71c84c95c28a6fe11a71",
     "ver": 2,
-    "dgst": "000000abfc85c5fcc3f8c3bda899ce710472b2e666c737f14d532c60c03a8133",
     "prev_dgst": "",
-    "nonce": 4537186,
+    "nonce": 5602959,
     "chain_tweaks": {
       "block_version": 2,
       "complexity": 6
     },
     "txs": [
       {
-        "dgst": "",
-        "at": "2024-10-13T13:05:03Z",
-        "ins": [
-
-        ],
-        "outs": [
-          {
-            "dest_pub": "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
-            "millis": 1000
-          }
-        ],
-        "wits": [
-
-        ]
-      }
-    ]
-  },
-  {
-    "ver": 2,
-    "dgst": "000000fe34e77eef6336da8896aeb81ccdb07f3a0e2bfaf553fae3bbdf5d8b12",
-    "prev_dgst": "000000abfc85c5fcc3f8c3bda899ce710472b2e666c737f14d532c60c03a8133",
-    "nonce": 5886566,
-    "txs": [
-      {
-        "dgst": "",
-        "at": "2024-10-13T13:06:26Z",
-        "ins": [
-
-        ],
-        "outs": [
-          {
-            "dest_pub": "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
-            "millis": 1000
-          }
-        ],
-        "wits": [
-
-        ]
-      }
-    ]
-  },
-  {
-    "ver": 2,
-    "dgst": "000000d784a70fb62df8cd9a0e1eecdc383153e9e3e565f3194ee0cf69cce54f",
-    "prev_dgst": "000000fe34e77eef6336da8896aeb81ccdb07f3a0e2bfaf553fae3bbdf5d8b12",
-    "nonce": 7416533,
-    "txs": [
-      {
-        "dgst": "",
-        "at": "2024-10-13T13:10:49Z",
+        "dgst": "d00b4dac7beef42023239c25189f18e457d804438c2b5e8d41ee05f9b3245828",
+        "at": "2024-10-14T18:42:07Z",
         "ins": [
 
         ],
