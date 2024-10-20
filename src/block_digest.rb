@@ -1,7 +1,5 @@
 # typed: strict
 
-require 'digest/blake3'
-
 class BlockDigest
   extend T::Sig
 
@@ -12,16 +10,14 @@ class BlockDigest
 
   sig { returns(String) }
   def hex
-    Digest::Blake3.hexdigest(block_header.to_stable_json)
+    Digest::Blake3.hexdigest(payload)
   end
 
-  private
-
-  # TODO: a better name
-  sig { returns(T::Hash[String, T.untyped]) }
-  def block_header
+  sig { returns(String) }
+  def payload
     BlockSerializer
       .new(@block)
       .representation_for_digest
+      .to_stable_json
   end
 end

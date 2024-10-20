@@ -26,7 +26,7 @@ class BlockSerializer
     }.merge(representation_for_digest)
   end
   
-  # TODO: put digest of sig_txs in header, not the whole payload
+  # TODO: put digest of all txs in header, not the whole payload
   sig { returns(T::Hash[String, T.untyped]) }
   def representation_for_digest
     {
