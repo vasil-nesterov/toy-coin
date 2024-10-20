@@ -8,16 +8,16 @@ class KVStorage
     @path = path
   end
 
-  # TODO: keep hash in memory
-  sig { params(key: String).returns(String) }
-  def fetch(key)
-    doc = File.read(@path)
-
-    hash = doc
+  sig { returns(T::Hash[String, String]) }
+  def read
+    hash = File
+      .read(@path)
       .split("\n")
       .map { _1.split('=') }
       .to_h
-    hash.fetch(key)
+
+    Log.info("Loaded #{@path}")
+    hash
   end
 
   sig { params(hash: T::Hash[String, String]).void }
@@ -30,4 +30,3 @@ class KVStorage
     Log.info("Written #{@path}")
   end
 end
-

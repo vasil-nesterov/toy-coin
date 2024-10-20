@@ -8,7 +8,7 @@ RSpec.describe BlockchainStorage do
 
   describe "#load" do
     it "loads the blockchain from a file, and computes UTXO set" do
-      blockchain, utxo_set = storage.load
+      blockchain, utxo_set = storage.read
 
       expect(blockchain.height).to eq(1)
 

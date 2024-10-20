@@ -8,19 +8,10 @@ class BlockchainStorage
     @path_to_file = path_to_file
   end
 
-  sig { params(blockchain: Blockchain).void }
-  def save(blockchain)
-    File.write(
-      @path_to_file,
-      JSON.pretty_generate(blockchain.serialize)
-    )
-    Log.info("Saved blockchain to #{@path_to_file}")
-  end
-
   # TODO: Refactor to return only a Blockchain. 
   # Computing UTXO for Node shouldn't be BlockchainStorage's responsibility.
   sig { returns([Blockchain, UTXOSet]) }
-  def load
+  def read
     bc = Blockchain.new
     utxo_set = UTXOSet.new
 
@@ -35,5 +26,14 @@ class BlockchainStorage
     Log.info("Loaded blockchain from #{@path_to_file}")
 
     [bc, utxo_set]
+  end
+
+  sig { params(blockchain: Blockchain).void }
+  def write(blockchain)
+    File.write(
+      @path_to_file,
+      JSON.pretty_generate(blockchain.serialize)
+    )
+    Log.info("Saved blockchain to #{@path_to_file}")
   end
 end

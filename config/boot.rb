@@ -22,6 +22,7 @@ Log = Logger.new(STDOUT)
 
 $loader = Zeitwerk::Loader.new
 %w[config/middleware
+   src/storages
    src/structs
    src/rules
    src].each { |dir| $loader.push_dir(dir) }
