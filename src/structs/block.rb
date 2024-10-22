@@ -11,7 +11,6 @@ class Block < T::Struct
   prop :nonce, Integer
   prop :txs, T::Array[Tx]
 
-  # TODO: Rename to chain_updates
-  # TODO: Convert to a proper struct
-  prop :chain_tweaks, T.nilable(T::Hash[Symbol, T.untyped])
+  # TODO: Rename to something singular
+  prop :chain_tweaks, ChainTweaks
 end

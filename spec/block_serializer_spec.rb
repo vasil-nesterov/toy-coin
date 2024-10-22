@@ -8,7 +8,7 @@ RSpec.describe BlockSerializer do
       "ver" => Block::CURRENT_VERSION,
       "prev_dgst" => "previous_digest",
       "nonce" => 12345,
-      "chain_tweaks" => { "some_tweak" => "value" },
+      "chain_tweaks" => { "complexity" => 10 },
       "txs" => [
         {
           "dgst" => "tx_digest",
@@ -45,7 +45,7 @@ RSpec.describe BlockSerializer do
         "ver" => Block::CURRENT_VERSION,
         "prev_dgst" => "previous_digest",
         "nonce" => 12345,
-        "chain_tweaks" => { "some_tweak" => "value" },
+        "chain_tweaks" => { "complexity" => 10 },
         "txs" => [
           {
             "dgst" => "tx_digest",

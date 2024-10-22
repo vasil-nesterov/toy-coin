@@ -9,7 +9,7 @@ class BlockSerializer
       ver: payload["ver"],
       prev_dgst: payload["prev_dgst"],
       nonce: payload["nonce"],
-      chain_tweaks: payload["chain_tweaks"]&.transform_keys(&:to_sym),
+      chain_tweaks: ChainTweaks.from_representation(payload["chain_tweaks"]),
       txs: payload["txs"].map { |tx| TxSerializer.from_representation(tx) }
     )
   end
@@ -33,7 +33,7 @@ class BlockSerializer
       "ver" => @block.ver,
       "prev_dgst" => @block.prev_dgst,
       "nonce" => @block.nonce,
-      "chain_tweaks" => @block.chain_tweaks&.transform_keys(&:to_s),
+      "chain_tweaks" => @block.chain_tweaks.to_representation,
       "txs" => @block.txs.map { |tx| TxSerializer.new(tx).full_representation }
     }.compact
   end
