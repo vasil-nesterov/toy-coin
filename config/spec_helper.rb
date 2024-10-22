@@ -13,6 +13,15 @@ RSpec.configure do |c|
   c.run_all_when_everything_filtered = true
 end
 
+sig { returns(Blockchain) }
+def simple_blockchain
+  bc, _utxo_set = BlockchainStorage
+    .new("#{ROOT_DIR}/spec/fixtures/simple_blockchain.json")
+    .read
+    
+  bc
+end
+
 sig { returns(Tx) }
 def simple_coinbase_tx
   File

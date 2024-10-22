@@ -1,24 +1,31 @@
 # typed: strict
 
 RSpec.describe Miner do
-  T.bind(self, T.untyped) # https://stackoverflow.com/a/76301199
+  T.bind(self, T.untyped)
 
-  let(:bs) { BlockchainStorage.new("#{ROOT_DIR}/spec/fixtures/simple_blockchain.json") }
-  let(:miner) { Miner.new(complexity: 1, last_block_dgst: bs.load.last_block_dgst) }
+  let(:blockchain) { simple_blockchain }
+  let(:public_key) { 
+    KeyStorage
+      .new("#{ROOT_DIR}/spec/fixtures/alice_test.key")
+      .read[:public_key]
+  }
+  let(:miner) { 
+    Miner.new(
+      complexity: blockchain.current_complexity, 
+      last_block_dgst: blockchain.last_block_dgst,
+      public_key:
+    )
+  }
 
-  describe '#next_block' do
-    it 'returns a new block' do
-      expect(
-        miner.next_block[0]
-      ).to be_a(Block)
-      # TODO: Better spec
-    end
+  describe "#next_block" do
+    let(:new_block) { miner.next_block }
 
-    it 'returns a private key which owns the coinbase tx output' do
-      expect(
-        miner.next_block[1]
-      ).to be_a(Key)
-      # TODO: Better spec
+    it "returns a new valid block" do
+      expect(new_block).to be_a(Block)
+      
+      expect {
+        blockchain.add_block(new_block)
+      }.to change { blockchain.height }.by(1)
     end
   end
 end
