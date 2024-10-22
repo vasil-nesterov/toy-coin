@@ -33,7 +33,7 @@ class BlockSerializer
       "ver" => @block.ver,
       "prev_dgst" => @block.prev_dgst,
       "nonce" => @block.nonce,
-      "chain_tweaks" => @block.chain_tweaks.to_representation,
+      "chain_tweaks" => @block.chain_tweaks&.to_representation,
       "txs" => @block.txs.map { |tx| TxSerializer.new(tx).full_representation }
     }.compact
   end

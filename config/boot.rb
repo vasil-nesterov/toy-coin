@@ -3,6 +3,7 @@
 require "ed25519"
 require "digest/blake3"
 require "dotenv"
+require "json"
 require 'logger'
 require "sorbet-runtime"
 require "time"

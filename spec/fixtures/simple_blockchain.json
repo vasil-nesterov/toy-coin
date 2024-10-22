@@ -1,17 +1,16 @@
 [
   {
-    "dgst": "000000e8b33ad7bc5e8c7d79c575335f11ad6c3de04d71c84c95c28a6fe11a71",
+    "dgst": "0b9f6c343f69404bd1159a0d9b5e8cac2cd685f3678240a2cd7605e49553b2dc",
     "ver": 2,
     "prev_dgst": "",
-    "nonce": 5602959,
+    "nonce": 20,
     "chain_tweaks": {
-      "block_version": 2,
-      "complexity": 6
+      "complexity": 1
     },
     "txs": [
       {
-        "dgst": "d00b4dac7beef42023239c25189f18e457d804438c2b5e8d41ee05f9b3245828",
-        "at": "2024-10-14T18:42:07Z",
+        "dgst": "934bf3e59fd671b799c92f95853aaf7c48d016093d89b503c9e6f12bef7c30e3",
+        "at": "2024-10-22T18:30:36Z",
         "ins": [
 
         ],

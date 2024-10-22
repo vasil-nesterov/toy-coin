@@ -12,5 +12,5 @@ class Block < T::Struct
   prop :txs, T::Array[Tx]
 
   # TODO: Rename to something singular
-  prop :chain_tweaks, ChainTweaks
+  prop :chain_tweaks, T.nilable(ChainTweaks)
 end

@@ -32,7 +32,7 @@ class BlockchainStorage
   def write(blockchain)
     File.write(
       @path_to_file,
-      JSON.pretty_generate(blockchain.serialize)
+      JSON.pretty_generate(blockchain.to_representation)
     )
     Log.info("Saved blockchain to #{@path_to_file}")
   end
