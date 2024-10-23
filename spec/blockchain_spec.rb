@@ -81,7 +81,7 @@ RSpec.describe Blockchain do
     it "throws error if the new block doesn't satisfy rules" do
       expect {
         blockchain.add_block(block)
-      }.to raise_error(Blockchain::InvalidBlockAddedError)
+      }.not_to change { blockchain.height }
     end
   end
 end

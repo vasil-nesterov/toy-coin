@@ -5,10 +5,10 @@ class ChainTweaks < T::Struct
 
   prop :complexity, T.nilable(Integer)
 
-  sig { params(payload: T::Hash[String, T.untyped]).returns(ChainTweaks) }
+  sig { params(payload: T.nilable(T::Hash[String, T.untyped])).returns(ChainTweaks) }
   def self.from_representation(payload)
     new(
-      complexity: payload["complexity"]&.to_i
+      complexity: payload && payload["complexity"]&.to_i
     )
   end
 

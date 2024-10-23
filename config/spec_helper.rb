@@ -54,3 +54,19 @@ def simple_coinbase_tx
     .then { |hash| hash.dig(0, "txs", 0) }
     .then { |tx| TxSerializer.from_representation(tx) }
 end
+
+sig { returns(Tx) }
+def simple_tx
+  TxSerializer.from_representation({
+    "dgst" => "c62e1016d278aeb6fb2f69ec22b89621f16799cbe2c118cf25b86b98233bd293",
+    "at" => "2024-10-23T18:17:57Z",
+    "ins" => [],
+    "outs" => [
+      {
+        "dest_pub" => "33060d2c78b2d40e529763f9e0cf901463ca2b8f75061412caded25a1382cc1c",
+        "millis" => 1000
+      }
+    ],
+    "wits" => []
+  })
+end

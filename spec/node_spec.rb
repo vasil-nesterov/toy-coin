@@ -1,34 +1,68 @@
-# typed: false
+# typed: strict
 
 RSpec.describe Node do
-  let(:alice) { Key.load_from_file("#{ROOT_DIR}/spec/fixtures/alice_test.key") }
-  let(:blockchain_storage) { BlockchainStorage.new("#{ROOT_DIR}/spec/fixtures/simple_blockchain.json") }
+  T.bind(self, T.untyped)
 
+  let(:blockchain_storage) { 
+    BlockchainStorage.new("#{ROOT_DIR}/spec/fixtures/simple_blockchain.json") 
+  }
   let(:node) { Node.new(blockchain_storage: blockchain_storage) }
 
-  describe '#initialize' do
-    it 'initialized Node with Blockchain loaded from BlockchainStorage' do
-      expect(node).to be_a(Node)
-
-      expect(node.to_h.dig(:blockchain, :blocks)).to be_a(Array)
-
-      expect(node.to_h[:mempool]).to be_a(Array)
-      expect(node.to_h[:mempool]).to be_empty
+  describe '#to_representation' do
+    it 'returns the Node state' do
+      expect(node.to_representation).to be_a(Hash)
     end
   end
 
-  context 'with tx' do
-    let(:transaction) { 
-      Transaction.new(sender: alice.address, recipient: 'bob', value: 0.5)
-        .tap { _1.sign_with_key(alice) }
-    }
+  describe '#add_block' do
+    it 'adds a valid block to the blockchain' do
+      expect { 
+        result, errors = node.add_block(simple_next_block) 
+        
+        expect(errors).to be_empty
+        expect(result).to be(true)
+      }.to change { 
+        node.to_representation["blockchain"].length 
+      }.by(1)
+    end
 
-    describe '#add_transaction_to_mempool' do
-      it 'adds a transaction to the mempool' do
-        expect {
-          node.add_transaction_to_mempool(transaction)  
-        }.to change { node.to_h[:mempool].length }.by(1)
-      end
+    it 'rejects an invalid block' do
+      invalid_next_block = simple_next_block.tap { _1.nonce = 124 } 
+      
+      expect { 
+        result, errors = node.add_block(invalid_next_block) 
+        
+        expect(errors).not_to be_empty
+        expect(result).to be(false)
+      }.not_to change { 
+        node.to_representation["blockchain"].length 
+      }
+    end
+  end
+
+  describe '#add_tx' do
+    it 'adds a valid transaction to the mempool' do
+      expect { 
+        result, errors = node.add_tx(simple_tx)
+
+        expect(errors).to be_empty
+        expect(result).to be(true)
+      }.to change { 
+        node.to_representation["mempool"].length 
+      }.by(1)
+    end
+
+    it 'rejects an invalid transaction' do
+      invalid_tx = simple_tx.tap { _1.dgst = "" }
+
+      expect { 
+        result, errors = node.add_tx(invalid_tx)
+
+        expect(errors).not_to be_empty
+        expect(result).to be(false)
+      }.not_to change { 
+        node.to_representation["mempool"].length 
+      }
     end
   end
 end

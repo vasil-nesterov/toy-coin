@@ -38,10 +38,11 @@ class Blockchain
 
   sig { returns(T::Array[T::Hash[String, T.untyped]]) }
   def to_representation
+    # TODO: Add height to blocks
     @blocks.map { |block| BlockSerializer.new(block).full_representation }
   end
 
-  sig { params(next_block: Block).void }
+  sig { params(next_block: Block).returns([T::Boolean, T::Array[String]]) }
   def add_block(next_block)
     # The first block must define .chain_tweaks.complexity.
     read_complexity_from_block(next_block) if @blocks.empty?
@@ -55,8 +56,11 @@ class Blockchain
     if brs.satisfied?
       @blocks << next_block
       @utxo_set.process_block(next_block)
+
+      [true, []]
     else
-      raise InvalidBlockAddedError, "Block is invalid: #{brs.errors.join("\n")}"
+      
+      [false, brs.errors]
     end
   end
 

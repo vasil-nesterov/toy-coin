@@ -15,6 +15,7 @@ class KeyStorage
       .read
       .fetch_values('SECRET', 'PUBLIC')
 
+    # TODO: Return KeyPair, not a loosely typed hash
     {
       private_key: PrivateKey.new(secret_hex),
       public_key: PublicKey.new(public_hex)

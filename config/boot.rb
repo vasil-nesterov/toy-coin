@@ -5,6 +5,7 @@ require "digest/blake3"
 require "dotenv"
 require "json"
 require 'logger'
+require "roda"
 require "sorbet-runtime"
 require "time"
 require "zeitwerk"
