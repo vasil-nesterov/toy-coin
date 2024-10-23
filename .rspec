@@ -1,2 +1,1 @@
---require ./config/boot.rb
 --require ./config/spec_helper.rb
