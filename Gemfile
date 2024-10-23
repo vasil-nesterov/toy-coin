@@ -12,11 +12,7 @@ gem "roda", "~> 3.84"
 gem "zeitwerk", "~> 2.6"
 gem "dotenv", "~> 3.1"
 
-group :test do
-  gem "rspec", "~> 3.13"
-end
-
-group :development do
-  gem "rackup", "~> 2.1"
-  gem "rerun", "~> 0.14"
-end
+gem "rspec", "~> 3.13", group: :test
+gem "rackup", "~> 2.1", group: :development
+gem "rerun", "~> 0.14", group: :development
+gem "debug", "~> 1.9", group: %i[development test]
