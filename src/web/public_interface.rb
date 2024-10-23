@@ -10,10 +10,13 @@ module Web
     end
 
     route do |r|
-      node = r.env['node'] or raise "Node not injected"
+      node = T.let(
+        (r.env['node'] or raise "Node not injected"), 
+        Node
+      )
 
       r.get "state" do
-        { status: "success", state: node.to_h }
+        { status: "success", state: node.to_representation }
       end
     end
   end
