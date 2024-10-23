@@ -1,6 +1,8 @@
 # typed: strict
 
-# TODO: Use a DB with 2 indexes under the hood. Clickhouse, RedisSearch, whatever.
+# TODO 
+#   Use 2 indexes under the hood: on top of Clickhouse, RedisSearch, 
+#   internal in-mem sturcture, whatever.
 class UTXOSet
   extend T::Sig
 
@@ -10,7 +12,7 @@ class UTXOSet
   end
 
   sig { returns(T::Array[T::Hash[String, T.untyped]]) }
-  def serialize
+  def to_representation
     @utxos.map(&:to_representation)
   end
 
@@ -26,9 +28,7 @@ class UTXOSet
 
   sig { params(block: Block).void }
   def process_block(block)
-    block.txs.each do |tx|
-      process_transaction(tx)
-    end
+    block.txs.each { process_transaction(_1) }
   end
 
   sig { params(tx: Tx).void }
@@ -55,7 +55,7 @@ class UTXOSet
 
   private 
 
-  sig { params(tx_id: String, out_i: Integer).returns(T.nilable(UTXO)) }
+  sig { params(tx_id: String, out_i: Integer).returns(T.nilable(UTXO)) }        
   def find_by_tx_id_and_out_i(tx_id, out_i)
     @utxos.find { |utxo| utxo.tx_id == tx_id && utxo.out_i == out_i }
   end
